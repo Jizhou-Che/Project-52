@@ -7,3 +7,6 @@ Basic structure of drawing lines in a subview using Core Animation achieved.
 06.06.19 THU
 Basic structure of multiple scene application implemented.
 Feature of point drawing implemented.
+
+07.06.19 FRI
+Basic structure of asynchronous drawing with fixed interval implemented.

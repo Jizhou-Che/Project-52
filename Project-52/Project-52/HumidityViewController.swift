@@ -11,8 +11,11 @@ import UIKit
 class HumidityViewController: UIViewController {
     // Properties.
     @IBOutlet weak var graph: UIView!
-    @IBOutlet weak var inputX: UITextField!
-    @IBOutlet weak var inputY: UITextField!
+    @IBOutlet weak var valueLabel: UILabel!
+    @IBOutlet weak var slider: UISlider!
+    
+    var value = Float(50)
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,20 +59,29 @@ class HumidityViewController: UIViewController {
         graph.layer.addSublayer(layer)
     }
     
-    // Actions.
-    @IBAction func display(_ sender: UIButton) {
+    @objc func display() {
         // Clear the display area.
-        self.graph.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        // Check inputs.
-        if Double(inputX.text ?? "") == nil || Double(inputY.text ?? "") == nil {
-            let alert = UIAlertController(title: "Oh shit!", message: "Your inputs are invalid!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Fine.", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+        graph.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        // Calculate actual position of point.
+        let pointX = Double(value / 100) * Double(graph.bounds.size.width)
+        let pointY = Double(value / 100) * Double(graph.bounds.size.width)
+        drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+    }
+    
+    // Actions.
+    @IBAction func set_value(_ sender: UISlider) {
+        value = sender.value
+        valueLabel.text = "Value: " + String(value)
+    }
+    
+    @IBAction func toggle_display(_ sender: UIButton) {
+        if sender.title(for: .normal) == "Start" {
+            sender.setTitle("Stop", for: .normal)
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 0.0, target: self, selector: #selector(display), userInfo: nil, repeats: true)
         }else{
-            // Calculate actual position of point.
-            let pointX = round(Double(inputX.text ?? "")! / 100 * Double(self.graph.bounds.size.width))
-            let pointY = round(Double(inputY.text ?? "")! / 100 * Double(self.graph.bounds.size.height))
-            drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            sender.setTitle("Start", for: .normal)
+            timer?.invalidate()
         }
     }
 }
