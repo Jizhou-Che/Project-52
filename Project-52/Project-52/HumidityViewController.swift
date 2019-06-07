@@ -16,6 +16,13 @@ class HumidityViewController: UIViewController {
     
     var value = Float(50)
     var timer: Timer?
+    let pointSpacing = 5
+    let divideRatio = 70
+    var currentRatio = 0
+    var isFirstPoint = true
+    var shiftGraph = false
+    var lastPointX: Double?
+    var lastPointY: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +49,7 @@ class HumidityViewController: UIViewController {
         layer.fillColor = color
         // Add the CAShapeLayer to the graph.
         graph.layer.addSublayer(layer)
+        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
     }
     
     func drawLine(startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat) {
@@ -57,15 +65,49 @@ class HumidityViewController: UIViewController {
         layer.lineWidth = width
         // Add the CAShapeLayer to the graph.
         graph.layer.addSublayer(layer)
+        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
     }
     
     @objc func display() {
-        // Clear the display area.
-        graph.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        // Calculate actual position of point.
-        let pointX = Double(value / 100) * Double(graph.bounds.size.width)
-        let pointY = Double(value / 100) * Double(graph.bounds.size.width)
-        drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+        if shiftGraph {
+            // Shift the display area to the left.
+            graph.layer.sublayers?.forEach {
+                $0.transform = CATransform3DTranslate($0.transform, -graph.bounds.size.width / CGFloat(100 / pointSpacing), 0.0, 0.0)
+            }
+            // Draw new point and new connection.
+            let pointX = Double(divideRatio) / 100 * Double(graph.bounds.size.width)
+            let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
+            drawLine(startX: lastPointX! - Double(graph.bounds.size.width) / Double(100 / pointSpacing), startY: lastPointY!, endX: pointX, endY: pointY, color: UIColor.blue.cgColor, width: 3)
+            drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            lastPointX = pointX
+            lastPointY = pointY
+        } else {
+            if isFirstPoint {
+                currentRatio -= pointSpacing
+            }
+            currentRatio += pointSpacing
+            // Draw new point and new connection.
+            let pointX = Double(currentRatio) / 100 * Double(graph.bounds.size.width)
+            let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
+            if isFirstPoint {
+                isFirstPoint = false
+            } else {
+                drawLine(startX: lastPointX!, startY: lastPointY!, endX: pointX, endY: pointY, color: UIColor.blue.cgColor, width: 3)
+            }
+            drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            lastPointX = pointX
+            lastPointY = pointY
+            // Check for division boundary.
+            if currentRatio == divideRatio {
+                shiftGraph = true
+            }
+        }
+        // Remove layers that go out of boundaries.
+        graph.layer.sublayers?.forEach {
+            if $0.frame.origin.x < -graph.bounds.size.width{
+                $0.removeFromSuperlayer()
+            }
+        }
     }
     
     // Actions.
@@ -78,7 +120,7 @@ class HumidityViewController: UIViewController {
         if sender.title(for: .normal) == "Start" {
             sender.setTitle("Stop", for: .normal)
             timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: 0.0, target: self, selector: #selector(display), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(display), userInfo: nil, repeats: true)
         }else{
             sender.setTitle("Start", for: .normal)
             timer?.invalidate()

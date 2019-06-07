@@ -63,7 +63,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnU-F5-kbp">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnU-F5-kbp">
                                 <rect key="frame" x="32" y="117" width="350" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -97,8 +97,8 @@
                     </view>
                     <connections>
                         <outlet property="graph" destination="fnU-F5-kbp" id="Udf-JF-Lfq"/>
-                        <outlet property="valueLabel" destination="I4h-4x-V1h" id="SJW-vJ-NQK"/>
                         <outlet property="slider" destination="19G-O4-3Kb" id="e1w-x8-8nX"/>
+                        <outlet property="valueLabel" destination="I4h-4x-V1h" id="SJW-vJ-NQK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vjb-BK-l4M" sceneMemberID="firstResponder"/>
