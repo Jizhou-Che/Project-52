@@ -16,7 +16,7 @@ class HumidityViewController: UIViewController {
     
     var value = Float(50)
     var timer: Timer?
-    let pointSpacing = 5
+    let pointSpacingRatio = 5
     let divideRatio = 70
     var currentRatio = 0
     var isFirstPoint = true
@@ -31,7 +31,6 @@ class HumidityViewController: UIViewController {
     
     /*
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -47,9 +46,9 @@ class HumidityViewController: UIViewController {
         layer.path = path.cgPath
         layer.strokeColor = UIColor.clear.cgColor
         layer.fillColor = color
+        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
         // Add the CAShapeLayer to the graph.
         graph.layer.addSublayer(layer)
-        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
     }
     
     func drawLine(startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat) {
@@ -63,29 +62,34 @@ class HumidityViewController: UIViewController {
         layer.strokeColor = color
         layer.fillColor = UIColor.clear.cgColor
         layer.lineWidth = width
+        layer.zPosition = -0.1
+        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
         // Add the CAShapeLayer to the graph.
         graph.layer.addSublayer(layer)
-        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
     }
     
     @objc func display() {
         if shiftGraph {
-            // Shift the display area to the left.
-            graph.layer.sublayers?.forEach {
-                $0.transform = CATransform3DTranslate($0.transform, -graph.bounds.size.width / CGFloat(100 / pointSpacing), 0.0, 0.0)
-            }
-            // Draw new point and new connection.
+            // Draw new line and new point.
             let pointX = Double(divideRatio) / 100 * Double(graph.bounds.size.width)
             let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
-            drawLine(startX: lastPointX! - Double(graph.bounds.size.width) / Double(100 / pointSpacing), startY: lastPointY!, endX: pointX, endY: pointY, color: UIColor.blue.cgColor, width: 3)
-            drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            CATransaction.begin()
+            drawLine(startX: lastPointX!, startY: lastPointY!, endX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), endY: pointY, color: UIColor.blue.cgColor, width: 3)
+            drawPoint(positionX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            CATransaction.commit()
             lastPointX = pointX
             lastPointY = pointY
+            // Shift the display area to the left.
+            CATransaction.begin()
+            graph.layer.sublayers?.forEach {
+                $0.transform = CATransform3DTranslate($0.transform, -graph.bounds.size.width / CGFloat(100 / pointSpacingRatio), 0.0, 0.0)
+            }
+            CATransaction.commit()
         } else {
             if isFirstPoint {
-                currentRatio -= pointSpacing
+                currentRatio -= pointSpacingRatio
             }
-            currentRatio += pointSpacing
+            currentRatio += pointSpacingRatio
             // Draw new point and new connection.
             let pointX = Double(currentRatio) / 100 * Double(graph.bounds.size.width)
             let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
@@ -104,7 +108,7 @@ class HumidityViewController: UIViewController {
         }
         // Remove layers that go out of boundaries.
         graph.layer.sublayers?.forEach {
-            if $0.frame.origin.x < -graph.bounds.size.width{
+            if $0.frame.origin.x < -graph.bounds.size.width {
                 $0.removeFromSuperlayer()
             }
         }
