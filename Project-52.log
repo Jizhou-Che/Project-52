@@ -14,4 +14,6 @@ Basic structure of displaying data with fixed time interval implemented.
 Refined animation.
 
 09.06.19 SUN
-Feature of recording pieces of audio from microphone implemented.
+Functionality of recording pieces of audio from microphone implemented.
+Functionality of sampling amplitudes from audio files implemented.
+Feature of displaying basic audio waveform implemented.
