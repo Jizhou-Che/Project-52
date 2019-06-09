@@ -13,6 +13,7 @@
 		272502D622A7ABD000CF4E98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */; };
 		2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734B0AA22A91C780071968C /* HumidityViewController.swift */; };
 		2734B0AD22A91E710071968C /* Project-52ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734B0AC22A91E710071968C /* Project-52ViewController.swift */; };
+		279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279EFDF522ABC99F002CB84D /* SoundViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		272502D722A7ABD000CF4E98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2734B0AA22A91C780071968C /* HumidityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumidityViewController.swift; sourceTree = "<group>"; };
 		2734B0AC22A91E710071968C /* Project-52ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project-52ViewController.swift"; sourceTree = "<group>"; };
+		279EFDF522ABC99F002CB84D /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				272502CB22A7ABCF00CF4E98 /* AppDelegate.swift */,
 				2734B0AC22A91E710071968C /* Project-52ViewController.swift */,
+				279EFDF522ABC99F002CB84D /* SoundViewController.swift */,
 				2734B0AA22A91C780071968C /* HumidityViewController.swift */,
 				272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */,
 				272502CF22A7ABCF00CF4E98 /* Main.storyboard */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */,
 				2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */,
 				272502CC22A7ABCF00CF4E98 /* AppDelegate.swift in Sources */,
 				2734B0AD22A91E710071968C /* Project-52ViewController.swift in Sources */,

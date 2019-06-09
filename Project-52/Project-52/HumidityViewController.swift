@@ -16,6 +16,7 @@ class HumidityViewController: UIViewController {
     
     var value = Float(50)
     var timer: Timer?
+    let displayInterval = 0.4
     let pointSpacingRatio = 5
     let divideRatio = 70
     var currentRatio = 0
@@ -124,8 +125,8 @@ class HumidityViewController: UIViewController {
         if sender.title(for: .normal) == "Start" {
             sender.setTitle("Stop", for: .normal)
             timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(display), userInfo: nil, repeats: true)
-        }else{
+            timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(display), userInfo: nil, repeats: true)
+        } else {
             sender.setTitle("Start", for: .normal)
             timer?.invalidate()
         }

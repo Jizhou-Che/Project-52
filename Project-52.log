@@ -12,3 +12,6 @@ Feature of point drawing implemented.
 Basic structure of asynchronous drawing implemented.
 Basic structure of displaying data with fixed time interval implemented.
 Refined animation.
+
+09.06.19 SUN
+Feature of recording pieces of audio from microphone implemented.
