@@ -23,3 +23,6 @@ AVAudioEngine adopted to replace AVAudioRecorder.
 Bug fixed in enabling the start button after AVAudioEngine preparation.
 Reformulation of story board.
 Bug found in using headphone microphone instead of built-in microphone.
+
+16.06.19 SUN
+Initial tests for AT-09 BLE module performed.
