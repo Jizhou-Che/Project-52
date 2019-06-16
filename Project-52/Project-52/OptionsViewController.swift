@@ -1,14 +1,14 @@
 //
-//  Project-52ViewController.swift
+//  OptionsViewController.swift
 //  Project-52
 //
-//  Created by Jizhou Che on 2019/6/6.
+//  Created by Jizhou Che on 2019/6/14.
 //  Copyright © 2019 UNNC. All rights reserved.
 //
 
 import UIKit
 
-class Project_52ViewController: UIViewController {
+class OptionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

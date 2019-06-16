@@ -17,3 +17,9 @@ Refined animation.
 Functionality of recording pieces of audio from microphone implemented.
 Functionality of sampling amplitudes from audio files implemented.
 Feature of displaying basic audio waveform implemented.
+
+14.06.19 FRI
+AVAudioEngine adopted to replace AVAudioRecorder.
+Bug fixed in enabling the start button after AVAudioEngine preparation.
+Reformulation of story board.
+Bug found in using headphone microphone instead of built-in microphone.
