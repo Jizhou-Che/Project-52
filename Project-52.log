@@ -26,3 +26,4 @@ Bug found in using headphone microphone instead of built-in microphone.
 
 16.06.19 SUN
 Initial tests for AT-09 BLE module performed.
+View controller for scanning BLE devices added.

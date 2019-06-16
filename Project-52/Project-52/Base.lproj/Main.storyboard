@@ -26,7 +26,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4u1-9h-gym" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2871" y="-654"/>
+            <point key="canvasLocation" x="-3441" y="-654"/>
         </scene>
         <!--Project-52-->
         <scene sceneID="AyP-PS-lCq">
@@ -48,14 +48,43 @@
                     <navigationItem key="navigationItem" title="Project-52" id="rnp-VE-HGF">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AbJ-TK-shg">
                             <connections>
-                                <segue destination="MnY-aL-Wa4" kind="show" id="UMD-ac-NRZ"/>
+                                <segue destination="Mxb-Nj-Aqe" kind="show" id="wXR-9O-zCa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XIy-n6-dhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1968.1159420289857" y="-654.24107142857144"/>
+            <point key="canvasLocation" x="-2670" y="-654"/>
+        </scene>
+        <!--Connection-->
+        <scene sceneID="DE8-B9-4Uc">
+            <objects>
+                <viewController title="Connection" id="Mxb-Nj-Aqe" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oi7-uq-LmK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zwg-Is-wP0">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vUQ-uf-ThE"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Connection" id="KPn-dg-nYd">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="c7d-Qh-bBw">
+                            <connections>
+                                <segue destination="MnY-aL-Wa4" kind="show" id="MJm-7G-mbT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qvZ-5b-IIl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1900.0000000000002" y="-654.24107142857144"/>
         </scene>
         <!--Options-->
         <scene sceneID="0UD-rw-EnI">
@@ -68,27 +97,23 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HDP-Je-q7g">
                                 <rect key="frame" x="0.0" y="89" width="414" height="773"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69G-uB-9W6">
-                                        <rect key="frame" x="42" y="614" width="331" height="120"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                        <state key="normal" title="Confirm"/>
-                                        <connections>
-                                            <segue destination="j6i-c1-KZ0" kind="show" id="UUB-eb-qBG"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
                                 <viewLayoutGuide key="safeArea" id="qzI-DR-c32"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="wwa-F2-XlK"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Options" id="JoA-6d-o7p">
+                        <barButtonItem key="rightBarButtonItem" title="Confirm" id="FyU-3h-Qls">
+                            <connections>
+                                <segue destination="j6i-c1-KZ0" kind="show" id="hEc-Ma-og7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsk-GT-DlY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1094.2028985507247" y="-654.24107142857144"/>
+            <point key="canvasLocation" x="-1122" y="-654"/>
         </scene>
         <!--General-->
         <scene sceneID="HW0-82-k5q">
@@ -126,11 +151,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Kl0-bJ-KS7"/>
                     </view>
-                    <navigationItem key="navigationItem" title="General" id="MMK-jp-AmC"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QtO-MT-HZ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-194.20289855072465" y="-654.24107142857144"/>
+            <point key="canvasLocation" x="-339" y="-654"/>
         </scene>
         <!--Sound-->
         <scene sceneID="dHt-LH-04R">
@@ -171,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wjq-DV-Bzi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805.79710144927537" y="-990.40178571428567"/>
+            <point key="canvasLocation" x="604" y="-990"/>
         </scene>
         <!--Humidity-->
         <scene sceneID="Ldh-Df-l6i">
@@ -227,7 +251,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vjb-BK-l4M" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805.79710144927537" y="-318.08035714285711"/>
+            <point key="canvasLocation" x="604" y="-318"/>
         </scene>
     </scenes>
 </document>
