@@ -60,7 +60,7 @@
         <!--Connection-->
         <scene sceneID="DE8-B9-4Uc">
             <objects>
-                <viewController title="Connection" id="Mxb-Nj-Aqe" sceneMemberID="viewController">
+                <viewController title="Connection" id="Mxb-Nj-Aqe" customClass="ConnectionViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oi7-uq-LmK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,6 +81,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="connectionTableView" destination="zwg-Is-wP0" id="ZXV-Vt-UO3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qvZ-5b-IIl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

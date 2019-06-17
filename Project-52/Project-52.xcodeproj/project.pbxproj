@@ -13,6 +13,7 @@
 		272502D622A7ABD000CF4E98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */; };
 		2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */; };
 		2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734B0AA22A91C780071968C /* HumidityViewController.swift */; };
+		274EA8EF22B7454700056986 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EA8EE22B7454700056986 /* ConnectionViewController.swift */; };
 		279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279EFDF522ABC99F002CB84D /* SoundViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		272502D722A7ABD000CF4E98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		2734B0AA22A91C780071968C /* HumidityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumidityViewController.swift; sourceTree = "<group>"; };
+		274EA8EE22B7454700056986 /* ConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewController.swift; sourceTree = "<group>"; };
 		279EFDF522ABC99F002CB84D /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				272502CB22A7ABCF00CF4E98 /* AppDelegate.swift */,
+				274EA8EE22B7454700056986 /* ConnectionViewController.swift */,
 				2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */,
 				279EFDF522ABC99F002CB84D /* SoundViewController.swift */,
 				2734B0AA22A91C780071968C /* HumidityViewController.swift */,
@@ -143,6 +146,7 @@
 			files = (
 				279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */,
 				2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */,
+				274EA8EF22B7454700056986 /* ConnectionViewController.swift in Sources */,
 				272502CC22A7ABCF00CF4E98 /* AppDelegate.swift in Sources */,
 				2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */,
 			);
