@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial btSerial(7, 8); // RX, TX
+SoftwareSerial btSerial(3, 2); // RX, TX
 
 void setup() {
   Serial.begin(9600);
@@ -14,6 +14,4 @@ void loop() {
   if (Serial.available()) {
     btSerial.write(Serial.read());
   }
-  btSerial.write("Maximum of 20 bytes.");
-  delay(1000);
 }

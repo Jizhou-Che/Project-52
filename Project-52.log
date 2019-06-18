@@ -33,3 +33,4 @@ Basic structure for BLE connection implemented.
 
 18.06.19 TUE
 Basic structure for passing data between mobile phone and BLE devic implemented.
+Wired DHT11 temperature and humidity module to Arduino UNO board.
