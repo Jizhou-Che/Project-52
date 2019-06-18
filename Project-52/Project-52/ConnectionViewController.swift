@@ -15,6 +15,7 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var centralManager: CBCentralManager!
     var peripheralDevices = [CBPeripheral]()
+    var connectedDevice: CBPeripheral?
     var timer: Timer?
     var displayInterval = 2.0
     var refreshControl = UIRefreshControl()
@@ -33,6 +34,13 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
         // Set up the timer.
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is OptionsViewController {
+            let optionsViewController = segue.destination as! OptionsViewController
+            optionsViewController.connectedDevice = connectedDevice
+        }
     }
     
     /*
@@ -57,6 +65,7 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // A table cell is selected.
         centralManager.connect(peripheralDevices[indexPath.row])
+        connectedDevice = peripheralDevices[indexPath.row]
     }
     
     @objc func reloadConnections() {
@@ -117,5 +126,6 @@ extension ConnectionViewController: CBCentralManagerDelegate {
     // Delegate method for confirmation of connection.
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected.")
+        performSegue(withIdentifier: "showOptions", sender: nil)
     }
 }

@@ -14,4 +14,6 @@ void loop() {
   if (Serial.available()) {
     btSerial.write(Serial.read());
   }
+  btSerial.write("Maximum of 20 bytes.");
+  delay(1000);
 }
