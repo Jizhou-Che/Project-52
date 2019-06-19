@@ -9,13 +9,12 @@
 import UIKit
 
 class HumidityViewController: UIViewController {
-    // Properties.
+    // Outlets.
     @IBOutlet weak var graph: UIView!
     @IBOutlet weak var valueLabel: UILabel!
-    @IBOutlet weak var slider: UISlider!
     
-    var value = Float(50)
-    var timer: Timer?
+    // Properties.
+    var timer = Timer()
     let displayInterval = 0.4
     let pointSpacingRatio = 5
     let divideRatio = 70
@@ -25,58 +24,28 @@ class HumidityViewController: UIViewController {
     var lastPointX: Double?
     var lastPointY: Double?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    // Actions.
+    @IBAction func toggle_display(_ sender: UIButton) {
+        if sender.title(for: .normal) == "Start" {
+            sender.setTitle("Stop", for: .normal)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(display), userInfo: nil, repeats: true)
+        } else {
+            sender.setTitle("Start", for: .normal)
+            timer.invalidate()
+        }
     }
     
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    func drawPoint(positionX: Double, positionY: Double, color: CGColor, size: CGFloat) {
-        // Create path.
-        let path = UIBezierPath(arcCenter: CGPoint(x: positionX, y: positionY), radius: size, startAngle: 0 * CGFloat.pi / 180, endAngle: 360 * CGFloat.pi / 180, clockwise: true)
-        // Create a CAShapeLayer that uses that UIBezierPath.
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.strokeColor = UIColor.clear.cgColor
-        layer.fillColor = color
-        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
-        // Add the CAShapeLayer to the graph.
-        graph.layer.addSublayer(layer)
-    }
-    
-    func drawLine(startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat) {
-        // Create path.
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: startX, y: startY))
-        path.addLine(to: CGPoint(x: endX, y: endY))
-        // Create a CAShapeLayer that uses that UIBezierPath.
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.strokeColor = color
-        layer.fillColor = UIColor.clear.cgColor
-        layer.lineWidth = width
-        layer.zPosition = -0.1
-        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
-        // Add the CAShapeLayer to the graph.
-        graph.layer.addSublayer(layer)
-    }
-    
+    // Methods.
     @objc func display() {
+        valueLabel.text = "Humidity: " + String(AppData.humidity)
         if shiftGraph {
             // Draw new line and new point.
             let pointX = Double(divideRatio) / 100 * Double(graph.bounds.size.width)
-            let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
+            let pointY = Double((100 - Double(AppData.humidity)) / 100) * Double(graph.bounds.size.height)
             CATransaction.begin()
-            drawLine(startX: lastPointX!, startY: lastPointY!, endX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), endY: pointY, color: UIColor.blue.cgColor, width: 3)
-            drawPoint(positionX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            AppData.drawLine(graph: graph, startX: lastPointX!, startY: lastPointY!, endX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), endY: pointY, color: UIColor.blue.cgColor, width: 3)
+            AppData.drawPoint(graph: graph, positionX: pointX + Double(graph.bounds.size.width) / Double(100 / pointSpacingRatio), positionY: pointY, color: UIColor.red.cgColor, size: 5)
             CATransaction.commit()
             lastPointX = pointX
             lastPointY = pointY
@@ -93,13 +62,13 @@ class HumidityViewController: UIViewController {
             currentRatio += pointSpacingRatio
             // Draw new point and new connection.
             let pointX = Double(currentRatio) / 100 * Double(graph.bounds.size.width)
-            let pointY = Double((100 - value) / 100) * Double(graph.bounds.size.width)
+            let pointY = Double((100 - Double(AppData.humidity)) / 100) * Double(graph.bounds.size.height)
             if isFirstPoint {
                 isFirstPoint = false
             } else {
-                drawLine(startX: lastPointX!, startY: lastPointY!, endX: pointX, endY: pointY, color: UIColor.blue.cgColor, width: 3)
+                AppData.drawLine(graph: graph, startX: lastPointX!, startY: lastPointY!, endX: pointX, endY: pointY, color: UIColor.blue.cgColor, width: 3)
             }
-            drawPoint(positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
+            AppData.drawPoint(graph: graph, positionX: pointX, positionY: pointY, color: UIColor.red.cgColor, size: 5)
             lastPointX = pointX
             lastPointY = pointY
             // Check for division boundary.
@@ -112,23 +81,6 @@ class HumidityViewController: UIViewController {
             if $0.frame.origin.x < -graph.bounds.size.width {
                 $0.removeFromSuperlayer()
             }
-        }
-    }
-    
-    // Actions.
-    @IBAction func set_value(_ sender: UISlider) {
-        value = sender.value
-        valueLabel.text = "Value: " + String(value)
-    }
-    
-    @IBAction func toggle_display(_ sender: UIButton) {
-        if sender.title(for: .normal) == "Start" {
-            sender.setTitle("Stop", for: .normal)
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(display), userInfo: nil, repeats: true)
-        } else {
-            sender.setTitle("Start", for: .normal)
-            timer?.invalidate()
         }
     }
 }

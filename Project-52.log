@@ -39,3 +39,5 @@ Wired DHT11 temperature and humidity module to Arduino UNO board.
 Wired light dependent resistor and sound sensor to Arduino UNO board.
 Data structure for passing data from Arduino UNO to mobile phone settled.
 Programming on Arduino UNO board generally completed.
+Basic structure for interpreting data from Arduino UNO implemented.
+Program structure refined.

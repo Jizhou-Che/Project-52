@@ -122,7 +122,7 @@
         <!--General-->
         <scene sceneID="HW0-82-k5q">
             <objects>
-                <viewController title="General" id="j6i-c1-KZ0" sceneMemberID="viewController">
+                <viewController title="General" id="j6i-c1-KZ0" customClass="GeneralViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UG6-gC-lXr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -218,22 +218,15 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Value: 50" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4h-4x-V1h">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Humidity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4h-4x-V1h">
                                         <rect key="frame" x="42" y="393" width="331" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="19G-O4-3Kb">
-                                        <rect key="frame" x="40" y="427" width="335" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <connections>
-                                            <action selector="set_value:" destination="JvV-0O-BYt" eventType="valueChanged" id="uEj-Y0-FgK"/>
-                                        </connections>
-                                    </slider>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8FK-dW-4ir">
-                                        <rect key="frame" x="42" y="463" width="331" height="80"/>
+                                        <rect key="frame" x="42" y="439" width="331" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <state key="normal" title="Start"/>
@@ -249,7 +242,6 @@
                     </view>
                     <connections>
                         <outlet property="graph" destination="fnU-F5-kbp" id="Udf-JF-Lfq"/>
-                        <outlet property="slider" destination="19G-O4-3Kb" id="e1w-x8-8nX"/>
                         <outlet property="valueLabel" destination="I4h-4x-V1h" id="SJW-vJ-NQK"/>
                     </connections>
                 </viewController>

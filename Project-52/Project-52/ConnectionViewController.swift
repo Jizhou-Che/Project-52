@@ -10,16 +10,18 @@ import UIKit
 import CoreBluetooth
 
 class ConnectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    // Properties.
+    // Outlets.
     @IBOutlet weak var connectionTableView: UITableView!
     
+    // Properties.
     var centralManager: CBCentralManager!
     var peripheralDevices = [CBPeripheral]()
     var connectedDevice: CBPeripheral?
-    var timer: Timer?
+    var timer = Timer()
     var displayInterval = 2.0
     var refreshControl = UIRefreshControl()
     
+    // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set up the central manager.
@@ -32,7 +34,7 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
         refreshControl.attributedTitle = NSAttributedString(string: "Reloading available devices.")
         connectionTableView.addSubview(refreshControl)
         // Set up the timer.
-        timer?.invalidate()
+        timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
     }
     
@@ -42,15 +44,6 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
             optionsViewController.connectedDevice = connectedDevice
         }
     }
-    
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return peripheralDevices.count
@@ -63,7 +56,6 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // A table cell is selected.
         centralManager.connect(peripheralDevices[indexPath.row])
         connectedDevice = peripheralDevices[indexPath.row]
     }

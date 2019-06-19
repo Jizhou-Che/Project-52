@@ -15,6 +15,8 @@
 		2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734B0AA22A91C780071968C /* HumidityViewController.swift */; };
 		274EA8EF22B7454700056986 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274EA8EE22B7454700056986 /* ConnectionViewController.swift */; };
 		279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279EFDF522ABC99F002CB84D /* SoundViewController.swift */; };
+		27EAFDEF22BA364D006724E1 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EAFDEE22BA364D006724E1 /* AppData.swift */; };
+		27EAFDF122BA387F006724E1 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EAFDF022BA387F006724E1 /* GeneralViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		2734B0AA22A91C780071968C /* HumidityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumidityViewController.swift; sourceTree = "<group>"; };
 		274EA8EE22B7454700056986 /* ConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewController.swift; sourceTree = "<group>"; };
 		279EFDF522ABC99F002CB84D /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
+		27EAFDEE22BA364D006724E1 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		27EAFDF022BA387F006724E1 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +64,11 @@
 		272502CA22A7ABCF00CF4E98 /* Project-52 */ = {
 			isa = PBXGroup;
 			children = (
+				27EAFDEE22BA364D006724E1 /* AppData.swift */,
 				272502CB22A7ABCF00CF4E98 /* AppDelegate.swift */,
 				274EA8EE22B7454700056986 /* ConnectionViewController.swift */,
 				2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */,
+				27EAFDF022BA387F006724E1 /* GeneralViewController.swift */,
 				279EFDF522ABC99F002CB84D /* SoundViewController.swift */,
 				2734B0AA22A91C780071968C /* HumidityViewController.swift */,
 				272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */,
@@ -145,10 +151,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */,
+				27EAFDF122BA387F006724E1 /* GeneralViewController.swift in Sources */,
 				2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */,
 				274EA8EF22B7454700056986 /* ConnectionViewController.swift in Sources */,
 				272502CC22A7ABCF00CF4E98 /* AppDelegate.swift in Sources */,
 				2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */,
+				27EAFDEF22BA364D006724E1 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@ class OptionsViewController: UIViewController {
     // Properties.
     var connectedDevice: CBPeripheral!
     
+    // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
         // Discover services on the connected device.
@@ -20,15 +21,6 @@ class OptionsViewController: UIViewController {
         let deviceCBUUID = CBUUID(string: "0xFFE0")
         connectedDevice.discoverServices([deviceCBUUID])
     }
-    
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension OptionsViewController: CBPeripheralDelegate {
@@ -52,7 +44,13 @@ extension OptionsViewController: CBPeripheralDelegate {
     
     // Delegate method for confirmation of value update in characteristics.
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        let dataString = String(data: characteristic.value!, encoding: String.Encoding.utf8)
-        print(dataString ?? "Data does not exist.")
+        AppData.dataString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "Data string not present."
+        let splitIndex1 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 4)
+        let splitIndex2 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 8)
+        let splitIndex3 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 12)
+        AppData.temperature = Int(AppData.dataString[..<splitIndex1], radix: 16)!
+        AppData.humidity = Int(AppData.dataString[splitIndex1..<splitIndex2], radix: 16)!
+        AppData.light = Int(AppData.dataString[splitIndex2..<splitIndex3], radix: 16)!
+        AppData.sound = Int(AppData.dataString[splitIndex3...], radix: 16)!
     }
 }

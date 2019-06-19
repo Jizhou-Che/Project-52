@@ -10,20 +10,34 @@ import UIKit
 import AVFoundation
 
 class SoundViewController: UIViewController, AVAudioRecorderDelegate {
-    // Properties.
+    // Outlets.
     @IBOutlet weak var graph: UIView!
     @IBOutlet weak var startButton: UIButton!
     
+    // Properties.
     var audioSession: AVAudioSession!
     var audioEngine: AVAudioEngine!
     var audioBuffer: Array<Float>?
-    var timer: Timer?
+    var timer = Timer()
     let displayInterval = 0.05
     let lineSpacingRatio = 1
     let divideRatio = 70
     var currentRatio = 0
     var shiftGraph = false
     
+    // Actions.
+    @IBAction func toggle_display(_ sender: UIButton) {
+        if sender.title(for: .normal) == "Start" {
+            sender.setTitle("Stop", for: .normal)
+            timer.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(display), userInfo: nil, repeats: true)
+        }else{
+            sender.setTitle("Start", for: .normal)
+            timer.invalidate()
+        }
+    }
+    
+    // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
         // Check for recording permission.
@@ -56,15 +70,6 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     func audioSessionFail() {
         let alert = UIAlertController(title: "Oh shit!", message: "Your microphone cannot be accessed!", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in
@@ -75,22 +80,6 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
         }))
         self.present(alert, animated: true)
-    }
-    
-    func drawLine(startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat) {
-        // Create path.
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: startX, y: startY))
-        path.addLine(to: CGPoint(x: endX, y: endY))
-        // Create a CAShapeLayer that uses that UIBezierPath.
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.strokeColor = color
-        layer.fillColor = UIColor.clear.cgColor
-        layer.lineWidth = width
-        layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
-        // Add the CAShapeLayer to the graph.
-        graph.layer.addSublayer(layer)
     }
     
     @objc func display() {
@@ -105,7 +94,7 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             // Draw new line.
             let lineX = Double(divideRatio) / 100 * Double(graph.bounds.size.width)
             CATransaction.begin()
-            drawLine(startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
+            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
             CATransaction.commit()
             // Shift the display area to the left.
             CATransaction.begin()
@@ -117,7 +106,7 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             currentRatio += lineSpacingRatio
             // Draw new line.
             let lineX = Double(currentRatio) / 100 * Double(graph.bounds.size.width)
-            drawLine(startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
+            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
             // Check for division boundary.
             if currentRatio == divideRatio {
                 shiftGraph = true
@@ -128,18 +117,6 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             if $0.frame.origin.x < -graph.bounds.size.width {
                 $0.removeFromSuperlayer()
             }
-        }
-    }
-    
-    // Actions.
-    @IBAction func toggle_display(_ sender: UIButton) {
-        if sender.title(for: .normal) == "Start" {
-            sender.setTitle("Stop", for: .normal)
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(display), userInfo: nil, repeats: true)
-        }else{
-            sender.setTitle("Start", for: .normal)
-            timer?.invalidate()
         }
     }
 }
