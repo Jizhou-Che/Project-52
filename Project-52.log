@@ -32,5 +32,10 @@ View controller for scanning BLE devices added.
 Basic structure for BLE connection implemented.
 
 18.06.19 TUE
-Basic structure for passing data between mobile phone and BLE devic implemented.
+Basic structure for passing data between mobile phone and BLE device implemented.
 Wired DHT11 temperature and humidity module to Arduino UNO board.
+
+19.06.19 WED
+Wired light dependent resistor and sound sensor to Arduino UNO board.
+Data structure for passing data from Arduino UNO to mobile phone settled.
+Programming on Arduino UNO board generally completed.
