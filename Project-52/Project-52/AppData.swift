@@ -10,7 +10,7 @@ import UIKit
 
 public class AppData {
     // Properties.
-    static var dataString = String()
+    static var dataString = String("0000000000000000")
     static var temperature = Int()
     static var humidity = Int()
     static var light = Int()

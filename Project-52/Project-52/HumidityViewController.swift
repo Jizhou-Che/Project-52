@@ -37,6 +37,10 @@ class HumidityViewController: UIViewController {
     }
     
     // Methods.
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
     @objc func display() {
         valueLabel.text = "Humidity: " + String(AppData.humidity)
         if shiftGraph {

@@ -38,9 +38,14 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is OptionsViewController {
             let optionsViewController = segue.destination as! OptionsViewController
+            optionsViewController.centralManager = centralManager
             optionsViewController.connectedDevice = connectedDevice
         }
     }
@@ -77,33 +82,33 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
 extension ConnectionViewController: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
-            case .unknown:
-                print("Central is unknown.")
-            case .resetting:
-                print("Central is resetting.")
-            case .unsupported:
-                print("Central is unsupported.")
-                // Alert and quit.
-                let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is not supported on your device!", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in
-                    self.navigationController?.popViewController(animated: true)
-                }))
-                self.present(alert, animated: true)
-            case .unauthorized:
-                print("Central is unauthorized.")
-            case .poweredOff:
-                print("Central is powered off.")
-                // Alert.
-                let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is turned off on your device!", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.default))
-                self.present(alert, animated: true)
-            case .poweredOn:
-                print("Central is powered on.")
-                // Scan for peripherals.
-                let deviceCBUUID = CBUUID(string: "0xFFE0")
-                centralManager.scanForPeripherals(withServices: [deviceCBUUID])
-            @unknown default:
-                print("Central is mysterious.")
+        case .unknown:
+            print("Central is unknown.")
+        case .resetting:
+            print("Central is resetting.")
+        case .unsupported:
+            print("Central is unsupported.")
+            // Alert and quit.
+            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is not supported on your device!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true)
+        case .unauthorized:
+            print("Central is unauthorized.")
+        case .poweredOff:
+            print("Central is powered off.")
+            // Alert.
+            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is turned off on your device!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.default))
+            self.present(alert, animated: true)
+        case .poweredOn:
+            print("Central is powered on.")
+            // Scan for peripherals.
+            let deviceCBUUID = CBUUID(string: "0xFFE0")
+            centralManager.scanForPeripherals(withServices: [deviceCBUUID])
+        @unknown default:
+            print("Central is mysterious.")
         }
     }
     

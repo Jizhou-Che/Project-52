@@ -70,6 +70,10 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
+    }
+    
     func audioSessionFail() {
         let alert = UIAlertController(title: "Oh shit!", message: "Your microphone cannot be accessed!", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in

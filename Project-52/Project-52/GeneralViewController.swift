@@ -12,6 +12,16 @@ class GeneralViewController: UIViewController {
     // Properties.
     var timer = Timer()
     let displayInterval = 0.5
+    var temperatureIsOn = Bool()
+    var temperatureSampleInterval = Int()
+    var humidityIsOn = Bool()
+    var humiditySampleInterval = Int()
+    var lightIsOn = Bool()
+    var lightSampleRate = Int()
+    var soundIsOn = Bool()
+    var soundSampleRate = Int()
+    var timeisFixed = Bool()
+    var timePeriod = Int()
     
     // Methods.
     override func viewDidLoad() {
@@ -19,6 +29,10 @@ class GeneralViewController: UIViewController {
         // Set up the timer.
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(displayData), userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        timer.invalidate()
     }
     
     @objc func displayData() {

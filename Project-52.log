@@ -41,3 +41,10 @@ Data structure for passing data from Arduino UNO to mobile phone settled.
 Programming on Arduino UNO board generally completed.
 Basic structure for interpreting data from Arduino UNO implemented.
 Program structure refined.
+
+20.06.19 THU
+Inportant bug fix in disconnecting the peripheral when going back to the connection view controller.
+Important bug fix in invalidating timer before a view controller disappears.
+User interface logic for options view controller implemented.
+Minor bug fixes.
+Bug found in data string index out of bounds.
