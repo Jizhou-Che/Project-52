@@ -32,6 +32,10 @@ class OptionsViewController: UIViewController {
     let soundSwitch = UISwitch()
     let soundSliderLabel = UILabel()
     let soundSlider = UISlider()
+    let microphoneLabel = UILabel()
+    let microphoneSwitch = UISwitch()
+    let microphoneSliderLabel = UILabel()
+    let microphoneSlider = UISlider()
     let timeLabel = UILabel()
     let timeSwitch = UISwitch()
     let timeSliderLabel = UILabel()
@@ -151,27 +155,53 @@ class OptionsViewController: UIViewController {
         soundSlider.setValue(1, animated: false)
         soundSlider.addTarget(self, action: #selector(setSoundSampleRate), for: .valueChanged)
         optionsScrollView.addSubview(soundSlider)
+        // Microphone.
+        microphoneLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.6, height: 80)
+        microphoneLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 570)
+        microphoneLabel.adjustsFontSizeToFitWidth = true
+        microphoneLabel.textAlignment = .natural
+        microphoneLabel.text = "Microphone: ON"
+        optionsScrollView.addSubview(microphoneLabel)
+        microphoneSwitch.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.2, height: 80)
+        microphoneSwitch.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.85, y: 570)
+        microphoneSwitch.isOn = true
+        microphoneSwitch.addTarget(self, action: #selector(toggleMicrophone), for: .valueChanged)
+        optionsScrollView.addSubview(microphoneSwitch)
+        microphoneSliderLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 80)
+        microphoneSliderLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 610)
+        microphoneSliderLabel.adjustsFontSizeToFitWidth = true
+        microphoneSliderLabel.textColor = UIColor.darkGray
+        microphoneSliderLabel.textAlignment = .natural
+        microphoneSliderLabel.text = "Sample rate: 20."
+        optionsScrollView.addSubview(microphoneSliderLabel)
+        microphoneSlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
+        microphoneSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 640)
+        microphoneSlider.minimumValue = 1
+        microphoneSlider.maximumValue = 100
+        microphoneSlider.setValue(20, animated: false)
+        microphoneSlider.addTarget(self, action: #selector(setMicrophoneSampleRate), for: .valueChanged)
+        optionsScrollView.addSubview(microphoneSlider)
         // Option of setting a fixed recording time.
         timeLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.6, height: 80)
-        timeLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 570)
+        timeLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 700)
         timeLabel.adjustsFontSizeToFitWidth = true
         timeLabel.textAlignment = .natural
         timeLabel.text = "Record for a fixed time: OFF"
         optionsScrollView.addSubview(timeLabel)
         timeSwitch.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.2, height: 80)
-        timeSwitch.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.85, y: 570)
+        timeSwitch.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.85, y: 700)
         timeSwitch.isOn = false
         timeSwitch.addTarget(self, action: #selector(toggleTime), for: .valueChanged)
         optionsScrollView.addSubview(timeSwitch)
         timeSliderLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 80)
-        timeSliderLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 610)
+        timeSliderLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.4, y: 740)
         timeSliderLabel.adjustsFontSizeToFitWidth = true
         timeSliderLabel.textColor = UIColor.lightGray
         timeSliderLabel.textAlignment = .natural
         timeSliderLabel.text = "Record for 5 minutes."
         optionsScrollView.addSubview(timeSliderLabel)
         timeSlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
-        timeSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 640)
+        timeSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 770)
         timeSlider.minimumValue = 1
         timeSlider.maximumValue = 24
         timeSlider.setValue(1, animated: false)
@@ -205,6 +235,8 @@ class OptionsViewController: UIViewController {
             generalViewController.lightSampleRate = Int(lightSlider.value)
             generalViewController.soundIsOn = soundSwitch.isOn
             generalViewController.soundSampleRate = Int(soundSlider.value)
+            generalViewController.microphoneIsOn = microphoneSwitch.isOn
+            generalViewController.microphoneSampleRate = Int(microphoneSlider.value)
             generalViewController.timeisFixed = timeSwitch.isOn
             generalViewController.timePeriod = Int(timeSlider.value) * 5
         }
@@ -272,6 +304,22 @@ class OptionsViewController: UIViewController {
     
     @objc func setSoundSampleRate() {
         soundSliderLabel.text = "Sample rate: " + String(Int(soundSlider.value)) + "."
+    }
+    
+    @objc func toggleMicrophone() {
+        if microphoneSwitch.isOn {
+            microphoneLabel.text = "Microphone: ON"
+            microphoneSliderLabel.textColor = UIColor.darkGray
+            microphoneSlider.isEnabled = true
+        } else {
+            microphoneLabel.text = "Microphone: OFF"
+            microphoneSliderLabel.textColor = UIColor.lightGray
+            microphoneSlider.isEnabled = false
+        }
+    }
+    
+    @objc func setMicrophoneSampleRate() {
+        microphoneSliderLabel.text = "Sample rate: " + String(Int(microphoneSlider.value)) + "."
     }
     
     @objc func toggleTime() {

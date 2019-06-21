@@ -12,7 +12,6 @@
 		272502D322A7ABD000CF4E98 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272502D222A7ABD000CF4E98 /* Assets.xcassets */; };
 		272502D622A7ABD000CF4E98 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */; };
 		2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */; };
-		2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2734B0AA22A91C780071968C /* HumidityViewController.swift */; };
 		279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279EFDF522ABC99F002CB84D /* SoundViewController.swift */; };
 		27C9805122BBD573008980A2 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9805022BBD573008980A2 /* ConnectionsViewController.swift */; };
 		27C9805322BBD850008980A2 /* RecordingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9805222BBD850008980A2 /* RecordingsViewController.swift */; };
@@ -28,7 +27,6 @@
 		272502D522A7ABD000CF4E98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		272502D722A7ABD000CF4E98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
-		2734B0AA22A91C780071968C /* HumidityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumidityViewController.swift; sourceTree = "<group>"; };
 		279EFDF522ABC99F002CB84D /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
 		27C9805022BBD573008980A2 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		27C9805222BBD850008980A2 /* RecordingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 				2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */,
 				27EAFDF022BA387F006724E1 /* GeneralViewController.swift */,
 				279EFDF522ABC99F002CB84D /* SoundViewController.swift */,
-				2734B0AA22A91C780071968C /* HumidityViewController.swift */,
 				272502D422A7ABD000CF4E98 /* LaunchScreen.storyboard */,
 				272502CF22A7ABCF00CF4E98 /* Main.storyboard */,
 				272502D222A7ABD000CF4E98 /* Assets.xcassets */,
@@ -156,7 +153,6 @@
 				27C9805322BBD850008980A2 /* RecordingsViewController.swift in Sources */,
 				279EFDF622ABC99F002CB84D /* SoundViewController.swift in Sources */,
 				27EAFDF122BA387F006724E1 /* GeneralViewController.swift in Sources */,
-				2734B0AB22A91C780071968C /* HumidityViewController.swift in Sources */,
 				27C9805122BBD573008980A2 /* ConnectionsViewController.swift in Sources */,
 				272502CC22A7ABCF00CF4E98 /* AppDelegate.swift in Sources */,
 				2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */,

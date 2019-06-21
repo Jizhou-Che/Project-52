@@ -51,5 +51,8 @@ Minor bug fixes.
 21.06.19 FRI
 Important bug fix in the invalidation of timers.
 Important bug fix in data string index out of bounds.
+Control logic for general view controller designed and implemented.
+Basic structure for displaying data from light sensor implemented.
 Minor program logic improvements.
 Bug found in CoreBluetooth XPC connection invalid.
+Bug found in permission of proceeding to general view controller with no sensor selected.
