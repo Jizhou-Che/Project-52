@@ -47,4 +47,9 @@ Inportant bug fix in disconnecting the peripheral when going back to the connect
 Important bug fix in invalidating timer before a view controller disappears.
 User interface logic for options view controller implemented.
 Minor bug fixes.
-Bug found in data string index out of bounds.
+
+21.06.19 FRI
+Important bug fix in the invalidation of timers.
+Important bug fix in data string index out of bounds.
+Minor program logic improvements.
+Bug found in CoreBluetooth XPC connection invalid.

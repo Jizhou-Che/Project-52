@@ -28,10 +28,10 @@
             </objects>
             <point key="canvasLocation" x="-3441" y="-654"/>
         </scene>
-        <!--Project-52-->
+        <!--Recordings-->
         <scene sceneID="AyP-PS-lCq">
             <objects>
-                <viewController title="Project-52" id="gXf-qE-59m" sceneMemberID="viewController">
+                <viewController title="Recordings" id="gXf-qE-59m" customClass="RecordingsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oVT-dn-oxS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -45,22 +45,25 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="4NB-Zm-6fc"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Project-52" id="rnp-VE-HGF">
+                    <navigationItem key="navigationItem" title="Recordings" id="rnp-VE-HGF">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AbJ-TK-shg">
                             <connections>
                                 <segue destination="Mxb-Nj-Aqe" kind="show" id="wXR-9O-zCa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="recordingsTableView" destination="Nrw-aQ-TV2" id="JEa-zE-7eu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XIy-n6-dhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2670" y="-654"/>
         </scene>
-        <!--Connection-->
+        <!--Connections-->
         <scene sceneID="DE8-B9-4Uc">
             <objects>
-                <viewController title="Connection" id="Mxb-Nj-Aqe" customClass="ConnectionViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Connections" id="Mxb-Nj-Aqe" customClass="ConnectionsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oi7-uq-LmK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,7 +77,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vUQ-uf-ThE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Connection" id="KPn-dg-nYd">
+                    <navigationItem key="navigationItem" title="Connections" id="KPn-dg-nYd">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Next" id="c7d-Qh-bBw">
                             <color key="tintColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -83,7 +86,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="connectionTableView" destination="zwg-Is-wP0" id="ZXV-Vt-UO3"/>
+                        <outlet property="connectionsTableView" destination="zwg-Is-wP0" id="dht-Bd-Qzg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qvZ-5b-IIl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -107,7 +110,7 @@
                         <viewLayoutGuide key="safeArea" id="wwa-F2-XlK"/>
                     </view>
                     <navigationItem key="navigationItem" title="Options" id="JoA-6d-o7p">
-                        <barButtonItem key="rightBarButtonItem" title="Confirm" id="FyU-3h-Qls">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="FyU-3h-Qls">
                             <connections>
                                 <segue destination="j6i-c1-KZ0" kind="show" id="hEc-Ma-og7"/>
                             </connections>

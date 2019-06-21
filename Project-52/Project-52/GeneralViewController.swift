@@ -31,8 +31,12 @@ class GeneralViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(displayData), userInfo: nil, repeats: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        timer.invalidate()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Invalidate timer.
+        if isMovingFromParent {
+            timer.invalidate()
+        }
     }
     
     @objc func displayData() {

@@ -186,6 +186,14 @@ class OptionsViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // Cancel conntection.
+        if isMovingFromParent {
+            centralManager.cancelPeripheralConnection(connectedDevice)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is GeneralViewController {
             let generalViewController = segue.destination as! GeneralViewController
@@ -199,12 +207,6 @@ class OptionsViewController: UIViewController {
             generalViewController.soundSampleRate = Int(soundSlider.value)
             generalViewController.timeisFixed = timeSwitch.isOn
             generalViewController.timePeriod = Int(timeSlider.value) * 5
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        if isMovingFromParent {
-            centralManager.cancelPeripheralConnection(connectedDevice)
         }
     }
     
@@ -310,13 +312,15 @@ extension OptionsViewController: CBPeripheralDelegate {
     
     // Delegate method for confirmation of value update in characteristics.
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        AppData.dataString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "0000000000000000"
-        let splitIndex1 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 4)
-        let splitIndex2 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 8)
-        let splitIndex3 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 12)
-        AppData.temperature = Int(AppData.dataString[..<splitIndex1], radix: 16)!
-        AppData.humidity = Int(AppData.dataString[splitIndex1..<splitIndex2], radix: 16)!
-        AppData.light = Int(AppData.dataString[splitIndex2..<splitIndex3], radix: 16)!
-        AppData.sound = Int(AppData.dataString[splitIndex3...], radix: 16)!
+        if String(data: characteristic.value!, encoding: String.Encoding.utf8)!.count == 16 {
+            AppData.dataString = String(data: characteristic.value!, encoding: String.Encoding.utf8)!
+            let splitIndex1 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 4)
+            let splitIndex2 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 8)
+            let splitIndex3 = AppData.dataString.index(AppData.dataString.startIndex, offsetBy: 12)
+            AppData.temperature = Int(AppData.dataString[..<splitIndex1], radix: 16)!
+            AppData.humidity = Int(AppData.dataString[splitIndex1..<splitIndex2], radix: 16)!
+            AppData.light = Int(AppData.dataString[splitIndex2..<splitIndex3], radix: 16)!
+            AppData.sound = Int(AppData.dataString[splitIndex3...], radix: 16)!
+        }
     }
 }

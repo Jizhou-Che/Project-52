@@ -1,17 +1,17 @@
 //
-//  ConnectionViewController.swift
+//  ConnectionsViewController.swift
 //  Project-52
 //
-//  Created by Jizhou Che on 2019/6/17.
+//  Created by Jizhou Che on 2019/6/20.
 //  Copyright © 2019 UNNC. All rights reserved.
 //
 
 import UIKit
 import CoreBluetooth
 
-class ConnectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Outlets.
-    @IBOutlet weak var connectionTableView: UITableView!
+    @IBOutlet weak var connectionsTableView: UITableView!
     
     // Properties.
     var centralManager: CBCentralManager!
@@ -27,18 +27,32 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
         // Set up the central manager.
         centralManager = CBCentralManager(delegate: self, queue: nil)
         // Set up the table view.
-        connectionTableView.delegate = self
-        connectionTableView.dataSource = self
+        connectionsTableView.delegate = self
+        connectionsTableView.dataSource = self
+        connectionsTableView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height)
         // Set up refresh control.
         refreshControl.addTarget(self, action: #selector(reloadConnections), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Reloading available devices.")
-        connectionTableView.addSubview(refreshControl)
+        connectionsTableView.addSubview(refreshControl)
         // Set up the timer.
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Reload table view.
+        connectionsTableView.reloadData()
+        // Restart timer.
+        timer.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //
+        centralManager.stopScan()
+        // Invalidate timer.
         timer.invalidate()
     }
     
@@ -68,18 +82,18 @@ class ConnectionViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func reloadConnections() {
         centralManager.stopScan()
         peripheralDevices.removeAll()
-        connectionTableView.reloadData()
+        connectionsTableView.reloadData()
         let deviceCBUUID = CBUUID(string: "0xFFE0")
         centralManager.scanForPeripherals(withServices: [deviceCBUUID])
         refreshControl.endRefreshing()
     }
     
     @objc func reloadTableView() {
-        connectionTableView.reloadData()
+        connectionsTableView.reloadData()
     }
 }
 
-extension ConnectionViewController: CBCentralManagerDelegate {
+extension ConnectionsViewController: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
         case .unknown:
