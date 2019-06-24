@@ -55,5 +55,5 @@ void loop() {
   data.toCharArray(dataBuffer, 20);
   // AT-09.
   bleSerial.write(dataBuffer);
-  delay(500);
+  delay(10);
 }

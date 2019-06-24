@@ -98,7 +98,7 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             // Draw new line.
             let lineX = Double(divideRatio) / 100 * Double(graph.bounds.size.width)
             CATransaction.begin()
-            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
+            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(displayInterval))
             CATransaction.commit()
             // Shift the display area to the left.
             CATransaction.begin()
@@ -110,7 +110,7 @@ class SoundViewController: UIViewController, AVAudioRecorderDelegate {
             currentRatio += lineSpacingRatio
             // Draw new line.
             let lineX = Double(currentRatio) / 100 * Double(graph.bounds.size.width)
-            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2)
+            AppData.drawLine(graph: graph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(graph.bounds.size.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(graph.bounds.size.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(displayInterval))
             // Check for division boundary.
             if currentRatio == divideRatio {
                 shiftGraph = true

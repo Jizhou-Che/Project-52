@@ -17,7 +17,7 @@ public class AppData {
     static var sound = Int()
     
     // Methods.
-    static func drawPoint(graph: UIView, positionX: Double, positionY: Double, color: CGColor, size: CGFloat) {
+    static func drawPoint(graph: UIView, positionX: Double, positionY: Double, color: CGColor, size: CGFloat, speed: Float) {
         // Create path.
         let path = UIBezierPath(arcCenter: CGPoint(x: positionX, y: positionY), radius: size, startAngle: 0 * CGFloat.pi / 180, endAngle: 360 * CGFloat.pi / 180, clockwise: true)
         // Create a layer with the path.
@@ -26,11 +26,12 @@ public class AppData {
         layer.strokeColor = UIColor.clear.cgColor
         layer.fillColor = color
         layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
+        layer.speed = speed
         // Add the layer to the graph.
         graph.layer.addSublayer(layer)
     }
     
-    static func drawLine(graph: UIView, startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat) {
+    static func drawLine(graph: UIView, startX: Double, startY: Double, endX: Double, endY: Double, color: CGColor, width: CGFloat, speed: Float) {
         // Create path.
         let path = UIBezierPath()
         path.move(to: CGPoint(x: startX, y: startY))
@@ -43,6 +44,7 @@ public class AppData {
         layer.lineWidth = width
         layer.zPosition = -0.1
         layer.transform = CATransform3DMakeTranslation(0.0, 0.0, 0.0)
+        layer.speed = speed
         // Add the layer to the graph.
         graph.layer.addSublayer(layer)
     }

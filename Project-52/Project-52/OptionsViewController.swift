@@ -68,14 +68,14 @@ class OptionsViewController: UIViewController {
         temperatureSliderLabel.adjustsFontSizeToFitWidth = true
         temperatureSliderLabel.textColor = UIColor.darkGray
         temperatureSliderLabel.textAlignment = .natural
-        temperatureSliderLabel.text = "Sample interval: 1 s."
+        temperatureSliderLabel.text = "Sample rate: 1/1."
         optionsScrollView.addSubview(temperatureSliderLabel)
         temperatureSlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
         temperatureSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 120)
         temperatureSlider.minimumValue = 1
         temperatureSlider.maximumValue = 60
-        temperatureSlider.setValue(1, animated: false)
-        temperatureSlider.addTarget(self, action: #selector(setTemperatureSampleInterval), for: .valueChanged)
+        temperatureSlider.setValue(60, animated: false)
+        temperatureSlider.addTarget(self, action: #selector(setTemperatureSampleRate), for: .valueChanged)
         optionsScrollView.addSubview(temperatureSlider)
         // Humidity.
         humidityLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.6, height: 80)
@@ -94,14 +94,14 @@ class OptionsViewController: UIViewController {
         humiditySliderLabel.adjustsFontSizeToFitWidth = true
         humiditySliderLabel.textColor = UIColor.darkGray
         humiditySliderLabel.textAlignment = .natural
-        humiditySliderLabel.text = "Sample interval: 1 s."
+        humiditySliderLabel.text = "Sample rate: 1/1."
         optionsScrollView.addSubview(humiditySliderLabel)
         humiditySlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
         humiditySlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 250)
         humiditySlider.minimumValue = 1
         humiditySlider.maximumValue = 60
-        humiditySlider.setValue(1, animated: false)
-        humiditySlider.addTarget(self, action: #selector(setHumiditySampleInterval), for: .valueChanged)
+        humiditySlider.setValue(60, animated: false)
+        humiditySlider.addTarget(self, action: #selector(setHumiditySampleRate), for: .valueChanged)
         optionsScrollView.addSubview(humiditySlider)
         // Light.
         lightLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.6, height: 80)
@@ -120,13 +120,13 @@ class OptionsViewController: UIViewController {
         lightSliderLabel.adjustsFontSizeToFitWidth = true
         lightSliderLabel.textColor = UIColor.darkGray
         lightSliderLabel.textAlignment = .natural
-        lightSliderLabel.text = "Sample rate: 1."
+        lightSliderLabel.text = "Sample rate: 20."
         optionsScrollView.addSubview(lightSliderLabel)
         lightSlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
         lightSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 380)
         lightSlider.minimumValue = 1
         lightSlider.maximumValue = 100
-        lightSlider.setValue(1, animated: false)
+        lightSlider.setValue(20, animated: false)
         lightSlider.addTarget(self, action: #selector(setLightSampleRate), for: .valueChanged)
         optionsScrollView.addSubview(lightSlider)
         // Sound.
@@ -146,13 +146,13 @@ class OptionsViewController: UIViewController {
         soundSliderLabel.adjustsFontSizeToFitWidth = true
         soundSliderLabel.textColor = UIColor.darkGray
         soundSliderLabel.textAlignment = .natural
-        soundSliderLabel.text = "Sample rate: 1."
+        soundSliderLabel.text = "Sample rate: 20."
         optionsScrollView.addSubview(soundSliderLabel)
         soundSlider.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.7, height: 60)
         soundSlider.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: 510)
         soundSlider.minimumValue = 1
         soundSlider.maximumValue = 100
-        soundSlider.setValue(1, animated: false)
+        soundSlider.setValue(20, animated: false)
         soundSlider.addTarget(self, action: #selector(setSoundSampleRate), for: .valueChanged)
         optionsScrollView.addSubview(soundSlider)
         // Microphone.
@@ -209,11 +209,7 @@ class OptionsViewController: UIViewController {
         timeSlider.addTarget(self, action: #selector(setTimePeriod), for: .valueChanged)
         optionsScrollView.addSubview(timeSlider)
         // Set content size of scroll view.
-        if view.safeAreaLayoutGuide.layoutFrame.height > timeSlider.frame.maxY {
-            optionsScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height - 50)
-        } else {
-            optionsScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: timeSlider.frame.maxY + 30)
-        }
+        optionsScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: timeSlider.frame.maxY)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -228,17 +224,17 @@ class OptionsViewController: UIViewController {
         if segue.destination is GeneralViewController {
             let generalViewController = segue.destination as! GeneralViewController
             generalViewController.temperatureIsOn = temperatureSwitch.isOn
-            generalViewController.temperatureSampleInterval = Int(temperatureSlider.value)
+            generalViewController.temperatureSampleInterval = Int((61 - temperatureSlider.value) * 100)
             generalViewController.humidityIsOn = humiditySwitch.isOn
-            generalViewController.humiditySampleInterval = Int(humiditySlider.value)
+            generalViewController.humiditySampleInterval = Int((61 - humiditySlider.value) * 100)
             generalViewController.lightIsOn = lightSwitch.isOn
-            generalViewController.lightSampleRate = Int(lightSlider.value)
+            generalViewController.lightSampleInterval = Int(100.0 / Double(lightSlider.value))
             generalViewController.soundIsOn = soundSwitch.isOn
-            generalViewController.soundSampleRate = Int(soundSlider.value)
+            generalViewController.soundSampleInterval = Int(100.0 / Double(soundSlider.value))
             generalViewController.microphoneIsOn = microphoneSwitch.isOn
-            generalViewController.microphoneSampleRate = Int(microphoneSlider.value)
+            generalViewController.microphoneSampleInterval = Int(100.0 / Double(microphoneSlider.value))
             generalViewController.timeisFixed = timeSwitch.isOn
-            generalViewController.timePeriod = Int(timeSlider.value) * 5
+            generalViewController.timePeriod = Int(timeSlider.value) * 30000
         }
     }
     
@@ -254,8 +250,8 @@ class OptionsViewController: UIViewController {
         }
     }
     
-    @objc func setTemperatureSampleInterval() {
-        temperatureSliderLabel.text = "Sample interval: " + String(Int(temperatureSlider.value)) + " s."
+    @objc func setTemperatureSampleRate() {
+        temperatureSliderLabel.text = "Sample rate: 1/" + String(61 - Int(temperatureSlider.value)) + "."
     }
     
     @objc func toggleHumidity() {
@@ -270,8 +266,8 @@ class OptionsViewController: UIViewController {
         }
     }
     
-    @objc func setHumiditySampleInterval() {
-        humiditySliderLabel.text = "Sample interval: " + String(Int(humiditySlider.value)) + " s."
+    @objc func setHumiditySampleRate() {
+        humiditySliderLabel.text = "Sample rate: 1/" + String(61 - Int(humiditySlider.value)) + "."
     }
     
     @objc func toggleLight() {

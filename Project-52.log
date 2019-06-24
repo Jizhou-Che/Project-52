@@ -56,3 +56,10 @@ Basic structure for displaying data from light sensor implemented.
 Minor program logic improvements.
 Bug found in CoreBluetooth XPC connection invalid.
 Bug found in permission of proceeding to general view controller with no sensor selected.
+
+24.06.19 MON
+Data displaying in general view controller generally implemented.
+Timer logic refined and synchronised with data transfer rate.
+Adaptation of animation speed adopted.
+Important bug fix in synchronising the timer while the page is scrolling.
+Fetal bug found in the timing of graphs in general view controller. Considering adopting multiple threads.

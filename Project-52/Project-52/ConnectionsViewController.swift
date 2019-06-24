@@ -17,7 +17,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     var centralManager: CBCentralManager!
     var peripheralDevices = [CBPeripheral]()
     var connectedDevice: CBPeripheral?
-    var timer = Timer()
+    var connectionsTimer = Timer()
     var displayInterval = 2.0
     var refreshControl = UIRefreshControl()
     
@@ -35,8 +35,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         refreshControl.attributedTitle = NSAttributedString(string: "Reloading available devices.")
         connectionsTableView.addSubview(refreshControl)
         // Set up the timer.
-        timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+        connectionsTimer.invalidate()
+        connectionsTimer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+        RunLoop.current.add(connectionsTimer, forMode: .common)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,16 +45,17 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         // Reload table view.
         connectionsTableView.reloadData()
         // Restart timer.
-        timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+        connectionsTimer.invalidate()
+        connectionsTimer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
+        RunLoop.current.add(connectionsTimer, forMode: .common)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        //
+        // Stop scanning.
         centralManager.stopScan()
         // Invalidate timer.
-        timer.invalidate()
+        connectionsTimer.invalidate()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
