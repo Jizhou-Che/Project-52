@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class GeneralViewController: UIViewController {
     // Outlets.
@@ -29,8 +30,8 @@ class GeneralViewController: UIViewController {
     var timePeriod = Int()
     var lastElementY = CGFloat(0)
     var temperatureGraph = UIView()
-    var temperaturePointSpacingRatio = 5
-    var temperatureDivideRatio = 70
+    let temperaturePointSpacingRatio = 5
+    let temperatureDivideRatio = 70
     var temperatureCurrentRatio = 0
     var temperatureIsFirstPoint = true
     var temperatureShiftGraph = false
@@ -38,8 +39,8 @@ class GeneralViewController: UIViewController {
     var temperatureLastPointY: Double?
     var temperatureLabel = UILabel()
     var humidityGraph = UIView()
-    var humidityPointSpacingRatio = 5
-    var humidityDivideRatio = 70
+    let humidityPointSpacingRatio = 5
+    let humidityDivideRatio = 70
     var humidityCurrentRatio = 0
     var humidityIsFirstPoint = true
     var humidityShiftGraph = false
@@ -47,8 +48,8 @@ class GeneralViewController: UIViewController {
     var humidityLastPointY: Double?
     var humidityLabel = UILabel()
     var lightGraph = UIView()
-    var lightPointSpacingRatio = 5
-    var lightDivideRatio = 70
+    let lightPointSpacingRatio = 5
+    let lightDivideRatio = 70
     var lightCurrentRatio = 0
     var lightIsFirstPoint = true
     var lightShiftGraph = false
@@ -56,14 +57,23 @@ class GeneralViewController: UIViewController {
     var lightLastPointY: Double?
     var lightLabel = UILabel()
     var soundGraph = UIView()
-    var soundPointSpacingRatio = 5
-    var soundDivideRatio = 70
+    let soundPointSpacingRatio = 5
+    let soundDivideRatio = 70
     var soundCurrentRatio = 0
     var soundIsFirstPoint = true
     var soundShiftGraph = false
     var soundLastPointX: Double?
     var soundLastPointY: Double?
     var soundLabel = UILabel()
+    var microphoneGraph = UIView()
+    var microphoneAudioSession: AVAudioSession?
+    var microphoneAudioEngine: AVAudioEngine?
+    var microphoneAudioBuffer: Array<Float>?
+    let microphoneLineSpacingRatio = 1
+    let microphoneDivideRatio = 70
+    var microphoneCurrentRatio = 0
+    var microphoneShiftGraph = false
+    var microphoneLabel = UILabel()
     var generalTimer = Timer()
     var generalTimeLabel = UILabel()
     var generalTime = Int(0)
@@ -170,7 +180,51 @@ class GeneralViewController: UIViewController {
             lastElementY = soundLabel.frame.maxY
         }
         if microphoneIsOn {
-            //
+            // Load graph.
+            microphoneGraph.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.9, height: view.safeAreaLayoutGuide.layoutFrame.width * 0.675)
+            microphoneGraph.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: lastElementY + microphoneGraph.frame.height * 0.5 + 10)
+            microphoneGraph.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+            microphoneGraph.clipsToBounds = true
+            generalScrollView.addSubview(microphoneGraph)
+            // Update position of last element.
+            lastElementY = microphoneGraph.frame.maxY
+            // Load label.
+            microphoneLabel.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.8, height: 50)
+            microphoneLabel.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: lastElementY + microphoneLabel.frame.height * 0.5)
+            microphoneLabel.adjustsFontSizeToFitWidth = true
+            microphoneLabel.textAlignment = .center
+            microphoneLabel.text = "Microphone: --."
+            generalScrollView.addSubview(microphoneLabel)
+            // Update position of last element.
+            lastElementY = microphoneLabel.frame.maxY
+            // Check for recording permission.
+            microphoneAudioSession = AVAudioSession.sharedInstance()
+            do {
+                try microphoneAudioSession?.setCategory(.record, mode: .default)
+                try microphoneAudioSession?.setActive(true)
+                microphoneAudioSession?.requestRecordPermission() { [unowned self] allowed in
+                    DispatchQueue.main.async {
+                        if allowed {
+                            self.microphoneAudioEngine = AVAudioEngine()
+                            let inputNode = self.microphoneAudioEngine?.inputNode
+                            let bufferSize = 4410
+                            let bus = 0
+                            inputNode?.installTap(onBus: bus, bufferSize: UInt32(bufferSize), format: inputNode?.inputFormat(forBus: bus)) { buffer, time in
+                                DispatchQueue.main.async {
+                                    self.microphoneAudioBuffer = Array(UnsafeBufferPointer(start: buffer.floatChannelData?[0], count: Int(buffer.frameLength)))
+                                }
+                            }
+                            self.microphoneAudioEngine?.prepare()
+                            try! self.microphoneAudioEngine?.start()
+                            self.startButton.isEnabled = true
+                        } else {
+                            self.microphoneAudioSessionFail()
+                        }
+                    }
+                }
+            } catch {
+                self.microphoneAudioSessionFail()
+            }
         }
         // Set content size of scroll view.
         generalScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: lastElementY)
@@ -182,6 +236,18 @@ class GeneralViewController: UIViewController {
             // Invalidate timer.
             generalTimer.invalidate()
         }
+    }
+    
+    func microphoneAudioSessionFail() {
+        let alert = UIAlertController(title: "Oh shit!", message: "Your microphone cannot be accessed!", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { _ in
+            self.navigationController?.popViewController(animated: false)
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }))
+        self.present(alert, animated: true)
     }
     
     @objc func startRecording() {
@@ -255,6 +321,9 @@ class GeneralViewController: UIViewController {
         if generalTime % soundSampleInterval == 0 {
             displaySound()
         }
+        if generalTime % microphoneSampleInterval == 0 {
+            displayMicrophone()
+        }
         if timeisFixed {
             if generalTime == timePeriod {
                 stopRecording()
@@ -263,7 +332,7 @@ class GeneralViewController: UIViewController {
         }
     }
     
-    @objc func displayTemperature() {
+    func displayTemperature() {
         // Modify label text.
         temperatureLabel.text = "Temperature: " + String(Int(AppData.temperature)) + "."
         if temperatureShiftGraph {
@@ -311,7 +380,7 @@ class GeneralViewController: UIViewController {
         }
     }
     
-    @objc func displayHumidity() {
+    func displayHumidity() {
         // Modify label text.
         humidityLabel.text = "Humidity: " + String(Int(AppData.humidity)) + "."
         if humidityShiftGraph {
@@ -359,7 +428,7 @@ class GeneralViewController: UIViewController {
         }
     }
     
-    @objc func displayLight() {
+    func displayLight() {
         // Modify label text.
         lightLabel.text = "Light: " + String(Int(AppData.light)) + "."
         if lightShiftGraph {
@@ -407,7 +476,7 @@ class GeneralViewController: UIViewController {
         }
     }
     
-    @objc func displaySound() {
+    func displaySound() {
         // Modify label text.
         soundLabel.text = "Sound: " + String(Int(AppData.sound)) + "."
         if soundShiftGraph {
@@ -450,6 +519,44 @@ class GeneralViewController: UIViewController {
         // Remove layers that go out of boundaries.
         soundGraph.layer.sublayers?.forEach {
             if $0.frame.origin.x < -soundGraph.frame.width {
+                $0.removeFromSuperlayer()
+            }
+        }
+    }
+    
+    func displayMicrophone() {
+        // Get a sample from the audio buffer.
+        var sum = Float(0)
+        for i in microphoneAudioBuffer ?? [0.0] {
+            sum += abs(i)
+        }
+        let sample = sum / Float(microphoneAudioBuffer?.count ?? 1) * 500
+        // Draw the graph.
+        if microphoneShiftGraph {
+            // Draw new line.
+            let lineX = Double(microphoneDivideRatio) / 100 * Double(microphoneGraph.frame.width)
+            CATransaction.begin()
+            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
+            CATransaction.commit()
+            // Shift the display area to the left.
+            CATransaction.begin()
+            microphoneGraph.layer.sublayers?.forEach {
+                $0.transform = CATransform3DTranslate($0.transform, -microphoneGraph.frame.width / CGFloat(100 / microphoneLineSpacingRatio), 0.0, 0.0)
+            }
+            CATransaction.commit()
+        } else {
+            microphoneCurrentRatio += microphoneLineSpacingRatio
+            // Draw new line.
+            let lineX = Double(microphoneCurrentRatio) / 100 * Double(microphoneGraph.frame.width)
+            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
+            // Check for division boundary.
+            if microphoneCurrentRatio == microphoneDivideRatio {
+                microphoneShiftGraph = true
+            }
+        }
+        // Remove layers that go out of boundaries.
+        microphoneGraph.layer.sublayers?.forEach {
+            if $0.frame.origin.x < -microphoneGraph.frame.width {
                 $0.removeFromSuperlayer()
             }
         }

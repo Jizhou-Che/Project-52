@@ -63,3 +63,8 @@ Timer logic refined and synchronised with data transfer rate.
 Adaptation of animation speed adopted.
 Important bug fix in synchronising the timer while the page is scrolling.
 Fetal bug found in the timing of graphs in general view controller. Considering adopting multiple threads.
+
+25.06.19 TUE
+Displaying of microphone data added to general view controller.
+Bug found in the calculation of the length of bars in microphone graph.
+Fetal bug found in the deallocation of audio buffer before the dispatch queue has finished.
