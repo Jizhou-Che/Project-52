@@ -16,6 +16,9 @@ class GeneralViewController: UIViewController {
     @IBOutlet weak var generalToolBar: UIToolbar!
     
     // Properties.
+    var recordingFileName = String()
+    var recordingFilePath: URL!
+    var recordingFileContent: [[String]] = []
     var temperatureIsOn = Bool()
     var temperatureSampleInterval = Int()
     var humidityIsOn = Bool()
@@ -86,6 +89,11 @@ class GeneralViewController: UIViewController {
     // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Define the name of recording file.
+        let date = Date()
+        let calendar = Calendar.current
+        recordingFileName = String(format: "%04i%02i%02i%02i%02i%02i", calendar.component(.year, from: date), calendar.component(.month, from: date), calendar.component(.day, from: date), calendar.component(.hour, from: date), calendar.component(.minute, from: date), calendar.component(.second, from: date)) + ".csv"
+        recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName)
         // Adjust layout.
         generalScrollView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height * 0.85)
         generalScrollView.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: view.safeAreaLayoutGuide.layoutFrame.height * 0.425)
@@ -103,6 +111,7 @@ class GeneralViewController: UIViewController {
         // Load items in tool bar.
         generalToolBar.setItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), startButton, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)], animated: true)
         // Load graphs for available sensors.
+        var contentRow: [String] = ["", "", "", "", "", "", ""]
         if temperatureIsOn {
             // Load graph.
             temperatureGraph.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.9, height: view.safeAreaLayoutGuide.layoutFrame.width * 0.675)
@@ -121,6 +130,10 @@ class GeneralViewController: UIViewController {
             generalScrollView.addSubview(temperatureLabel)
             // Update position of last element.
             lastElementY = temperatureLabel.frame.maxY
+            // Record sample rate to file content array.
+            contentRow[1] = "1"
+        } else {
+            contentRow[1] = "0"
         }
         if humidityIsOn {
             // Load graph.
@@ -140,6 +153,10 @@ class GeneralViewController: UIViewController {
             generalScrollView.addSubview(humidityLabel)
             // Update position of last element.
             lastElementY = humidityLabel.frame.maxY
+            // Record sample rate to file content array.
+            contentRow[2] = "1"
+        } else {
+            contentRow[2] = "0"
         }
         if lightIsOn {
             // Load graph.
@@ -159,6 +176,10 @@ class GeneralViewController: UIViewController {
             generalScrollView.addSubview(lightLabel)
             // Update position of last element.
             lastElementY = lightLabel.frame.maxY
+            // Record sample rate to file content array.
+            contentRow[3] = "1"
+        } else {
+            contentRow[3] = "0"
         }
         if soundIsOn {
             // Load graph.
@@ -178,6 +199,10 @@ class GeneralViewController: UIViewController {
             generalScrollView.addSubview(soundLabel)
             // Update position of last element.
             lastElementY = soundLabel.frame.maxY
+            // Record sample rate to file content array.
+            contentRow[4] = "1"
+        } else {
+            contentRow[4] = "0"
         }
         if microphoneIsOn {
             // Load graph.
@@ -202,7 +227,7 @@ class GeneralViewController: UIViewController {
             do {
                 try microphoneAudioSession?.setCategory(.record, mode: .default)
                 try microphoneAudioSession?.setActive(true)
-                microphoneAudioSession?.requestRecordPermission() { [unowned self] allowed in
+                microphoneAudioSession?.requestRecordPermission() { [self] allowed in
                     DispatchQueue.main.async {
                         if allowed {
                             self.microphoneAudioEngine = AVAudioEngine()
@@ -225,17 +250,20 @@ class GeneralViewController: UIViewController {
             } catch {
                 self.microphoneAudioSessionFail()
             }
+            // Record sample rate to file content array.
+            contentRow[5] = "1"
+        } else {
+            contentRow[5] = "0"
         }
+        recordingFileContent.append(contentRow)
         // Set content size of scroll view.
         generalScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: lastElementY)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if isMovingFromParent {
-            // Invalidate timer.
-            generalTimer.invalidate()
-        }
+        // Invalidate timer.
+        generalTimer.invalidate()
     }
     
     func microphoneAudioSessionFail() {
@@ -302,28 +330,69 @@ class GeneralViewController: UIViewController {
     }
     
     @objc func saveRecording() {
-        //
+        let saveViewController = SaveViewController()
+        saveViewController.recordingFileContent = recordingFileContent
+        saveViewController.recordingFilePath = recordingFilePath
+        self.navigationController?.pushViewController(saveViewController, animated: true)
     }
     
     @objc func setGeneralTime() {
         generalTime += 1
         generalTimeString = String(format: "%02i:%02i:%02i.%02i", generalTime / 360000, generalTime % 360000 / 6000, generalTime % 6000 / 100, generalTime % 100)
         generalTimeLabel.text = generalTimeString
-        if generalTime % temperatureSampleInterval == 0 {
-            displayTemperature()
+        var contentRow: [String] = ["", "", "", "", "", "", ""]
+        contentRow[0] = String(generalTime)
+        if temperatureIsOn {
+            if generalTime % temperatureSampleInterval == 0 {
+                displayTemperature()
+                contentRow[1] = String(AppData.temperature)
+            } else {
+                contentRow[1] = "-1"
+            }
+        } else {
+            contentRow[1] = "-1"
         }
-        if generalTime % humiditySampleInterval == 0 {
-            displayHumidity()
+        if humidityIsOn {
+            if generalTime % humiditySampleInterval == 0 {
+                displayHumidity()
+                contentRow[2] = String(AppData.humidity)
+            } else {
+                contentRow[2] = "-1"
+            }
+        } else {
+            contentRow[2] = "-1"
         }
-        if generalTime % lightSampleInterval == 0 {
-            displayLight()
+        if lightIsOn {
+            if generalTime % lightSampleInterval == 0 {
+                displayLight()
+                contentRow[3] = String(AppData.light)
+            } else {
+                contentRow[3] = "-1"
+            }
+        } else {
+            contentRow[3] = "-1"
         }
-        if generalTime % soundSampleInterval == 0 {
-            displaySound()
+        if soundIsOn {
+            if generalTime % soundSampleInterval == 0 {
+                displaySound()
+                contentRow[4] = String(AppData.sound)
+            } else {
+                contentRow[4] = "-1"
+            }
+        } else {
+            contentRow[4] = "-1"
         }
-        if generalTime % microphoneSampleInterval == 0 {
-            displayMicrophone()
+        if microphoneIsOn {
+            if generalTime % microphoneSampleInterval == 0 {
+                displayMicrophone()
+                contentRow[5] = String(AppData.microphone)
+            } else {
+                contentRow[5] = "-1"
+            }
+        } else {
+            contentRow[5] = "-1"
         }
+        recordingFileContent.append(contentRow)
         if timeisFixed {
             if generalTime == timePeriod {
                 stopRecording()

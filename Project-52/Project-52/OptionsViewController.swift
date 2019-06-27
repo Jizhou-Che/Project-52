@@ -248,6 +248,11 @@ class OptionsViewController: UIViewController {
             temperatureSliderLabel.textColor = UIColor.lightGray
             temperatureSlider.isEnabled = false
         }
+        if !temperatureSwitch.isOn && !humiditySwitch.isOn && !lightSwitch.isOn && !soundSwitch.isOn && !microphoneSwitch.isOn {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     @objc func setTemperatureSampleRate() {
@@ -263,6 +268,11 @@ class OptionsViewController: UIViewController {
             humidityLabel.text = "Humidity sensor: OFF"
             humiditySliderLabel.textColor = UIColor.lightGray
             humiditySlider.isEnabled = false
+        }
+        if !temperatureSwitch.isOn && !humiditySwitch.isOn && !lightSwitch.isOn && !soundSwitch.isOn && !microphoneSwitch.isOn {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
@@ -280,6 +290,11 @@ class OptionsViewController: UIViewController {
             lightSliderLabel.textColor = UIColor.lightGray
             lightSlider.isEnabled = false
         }
+        if !temperatureSwitch.isOn && !humiditySwitch.isOn && !lightSwitch.isOn && !soundSwitch.isOn && !microphoneSwitch.isOn {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     @objc func setLightSampleRate() {
@@ -296,6 +311,11 @@ class OptionsViewController: UIViewController {
             soundSliderLabel.textColor = UIColor.lightGray
             soundSlider.isEnabled = false
         }
+        if !temperatureSwitch.isOn && !humiditySwitch.isOn && !lightSwitch.isOn && !soundSwitch.isOn && !microphoneSwitch.isOn {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     @objc func setSoundSampleRate() {
@@ -311,6 +331,11 @@ class OptionsViewController: UIViewController {
             microphoneLabel.text = "Microphone: OFF"
             microphoneSliderLabel.textColor = UIColor.lightGray
             microphoneSlider.isEnabled = false
+        }
+        if !temperatureSwitch.isOn && !humiditySwitch.isOn && !lightSwitch.isOn && !soundSwitch.isOn && !microphoneSwitch.isOn {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
