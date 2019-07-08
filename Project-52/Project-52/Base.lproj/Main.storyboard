@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="vUQ-uf-ThE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Connections" id="KPn-dg-nYd">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Next" id="c7d-Qh-bBw">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="c7d-Qh-bBw">
                             <color key="tintColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="MnY-aL-Wa4" kind="show" identifier="showOptions" id="MJm-7G-mbT"/>
@@ -151,7 +151,11 @@
                         <viewLayoutGuide key="safeArea" id="Kl0-bJ-KS7"/>
                     </view>
                     <navigationItem key="navigationItem" title="General" id="Sho-RG-uHb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="cjO-yg-lKH"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="cjO-yg-lKH">
+                            <connections>
+                                <action selector="takeNote:" destination="j6i-c1-KZ0" id="x02-7V-UFz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="generalInformationView" destination="vwP-P4-pvc" id="qfN-c4-UiZ"/>

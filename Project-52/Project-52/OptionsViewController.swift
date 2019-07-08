@@ -14,8 +14,8 @@ class OptionsViewController: UIViewController {
     @IBOutlet weak var optionsScrollView: UIScrollView!
     
     // Properties.
-    var centralManager: CBCentralManager!
-    var connectedDevice: CBPeripheral!
+    var centralManager: CBCentralManager?
+    var connectedDevice: CBPeripheral?
     let temperatureLabel = UILabel()
     let temperatureSwitch = UISwitch()
     let temperatureSliderLabel = UILabel()
@@ -45,9 +45,9 @@ class OptionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Discover services on the connected device.
-        connectedDevice.delegate = self
+        connectedDevice?.delegate = self
         let deviceCBUUID = CBUUID(string: "0xFFE0")
-        connectedDevice.discoverServices([deviceCBUUID])
+        connectedDevice?.discoverServices([deviceCBUUID])
         // Adjust layout.
         optionsScrollView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height)
         // Load labels and switches for available sensors.
@@ -216,7 +216,7 @@ class OptionsViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Cancel conntection.
         if isMovingFromParent {
-            centralManager.cancelPeripheralConnection(connectedDevice)
+//            centralManager.cancelPeripheralConnection(connectedDevice)
         }
     }
     

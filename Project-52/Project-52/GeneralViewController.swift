@@ -86,6 +86,14 @@ class GeneralViewController: UIViewController {
     var discardButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(discardRecording))
     var saveButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(saveRecording))
     
+    // Actions.
+    @IBAction func takeNote(_ sender: UIBarButtonItem) {
+        let noteViewController = NoteViewController()
+        noteViewController.timestamp = generalTime
+        let noteNavigationController = UINavigationController(rootViewController: noteViewController)
+        navigationController?.present(noteNavigationController, animated: true, completion: nil)
+    }
+    
     // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()

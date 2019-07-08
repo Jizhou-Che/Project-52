@@ -72,3 +72,7 @@ Feature of saving recordings to csv files implemented.
 Feature of viewing and removing recording files implemented.
 Bug found in recording 0 as the microphone data.
 Bug found in adding notes with special characters.
+
+07.07.19 SUN
+User interface for taking notes while recording implemented.
+Bug found in the force pause of recording while taking notes.

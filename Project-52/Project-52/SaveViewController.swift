@@ -10,7 +10,6 @@ import UIKit
 
 class SaveViewController: UIViewController {
     // Properties.
-    var doneButton: UIBarButtonItem!
     let recorderTextField = UITextField()
     let participantTextField = UITextField()
     let locationTextField = UITextField()
@@ -23,7 +22,7 @@ class SaveViewController: UIViewController {
         super.viewDidLoad()
         // Set title of view controller.
         navigationItem.title = "Save"
-        doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveRecording))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveRecording))
         navigationItem.rightBarButtonItem = doneButton
         // Load save scroll view.
         let saveScrollView = UIScrollView()
