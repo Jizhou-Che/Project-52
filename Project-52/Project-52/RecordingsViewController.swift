@@ -43,6 +43,10 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFiles[indexPath.row])
         print(try! String(contentsOf: recordingFilePath, encoding: .utf8))
+        let reviewViewController = ReviewViewController()
+        reviewViewController.recordingFileName = recordingFiles[indexPath.row]
+        reviewViewController.recordingFilePath = recordingFilePath
+        navigationController?.pushViewController(reviewViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

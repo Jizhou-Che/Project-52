@@ -17,6 +17,7 @@
 		27EAFDEF22BA364D006724E1 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EAFDEE22BA364D006724E1 /* AppData.swift */; };
 		27EAFDF122BA387F006724E1 /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EAFDF022BA387F006724E1 /* GeneralViewController.swift */; };
 		27ED97A922C3D6B500613730 /* SaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27ED97A822C3D6B500613730 /* SaveViewController.swift */; };
+		9BB3C38C22D85A0A000A8445 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB3C38B22D85A0A000A8445 /* ReviewViewController.swift */; };
 		9BC7E24722D1AB33004EB890 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E24622D1AB33004EB890 /* NoteViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		27EAFDEE22BA364D006724E1 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		27EAFDF022BA387F006724E1 /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
 		27ED97A822C3D6B500613730 /* SaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveViewController.swift; sourceTree = "<group>"; };
+		9BB3C38B22D85A0A000A8445 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		9BC7E24622D1AB33004EB890 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +71,7 @@
 				27EAFDEE22BA364D006724E1 /* AppData.swift */,
 				272502CB22A7ABCF00CF4E98 /* AppDelegate.swift */,
 				27C9805222BBD850008980A2 /* RecordingsViewController.swift */,
+				9BB3C38B22D85A0A000A8445 /* ReviewViewController.swift */,
 				27C9805022BBD573008980A2 /* ConnectionsViewController.swift */,
 				2729FAA722B377D700E9F4D1 /* OptionsViewController.swift */,
 				27EAFDF022BA387F006724E1 /* GeneralViewController.swift */,
@@ -161,6 +164,7 @@
 				2729FAA822B377D700E9F4D1 /* OptionsViewController.swift in Sources */,
 				27EAFDEF22BA364D006724E1 /* AppData.swift in Sources */,
 				27ED97A922C3D6B500613730 /* SaveViewController.swift in Sources */,
+				9BB3C38C22D85A0A000A8445 /* ReviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
