@@ -18,7 +18,6 @@ class GeneralViewController: UIViewController {
     // Properties.
     var recordingFileName = String()
     var recordingFilePath: URL!
-    var recordingFileContent: [[String]] = []
     var temperatureIsOn = Bool()
     var temperatureSampleInterval = Int()
     var humidityIsOn = Bool()
@@ -100,8 +99,13 @@ class GeneralViewController: UIViewController {
         // Define the name of recording file.
         let date = Date()
         let calendar = Calendar.current
-        recordingFileName = String(format: "%04i%02i%02i%02i%02i%02i", calendar.component(.year, from: date), calendar.component(.month, from: date), calendar.component(.day, from: date), calendar.component(.hour, from: date), calendar.component(.minute, from: date), calendar.component(.second, from: date)) + ".csv"
-        recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName)
+        recordingFileName = String(format: "%04i%02i%02i%02i%02i%02i", calendar.component(.year, from: date), calendar.component(.month, from: date), calendar.component(.day, from: date), calendar.component(.hour, from: date), calendar.component(.minute, from: date), calendar.component(.second, from: date))
+        recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName + "_temp.csv")
+        // Create empty recording file.
+        if FileManager.default.fileExists(atPath: recordingFilePath.path) {
+            try? FileManager.default.removeItem(at: recordingFilePath)
+        }
+        FileManager.default.createFile(atPath: recordingFilePath.path, contents: nil, attributes: nil)
         // Adjust layout.
         generalScrollView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height * 0.85)
         generalScrollView.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, y: view.safeAreaLayoutGuide.layoutFrame.height * 0.425)
@@ -119,7 +123,7 @@ class GeneralViewController: UIViewController {
         // Load items in tool bar.
         generalToolBar.setItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), startButton, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)], animated: true)
         // Load graphs for available sensors.
-        var contentRow: [String] = ["", "", "", "", "", "", ""]
+        var contentRow = ["", "", "", "", "", "", ""]
         if temperatureIsOn {
             // Load graph.
             temperatureGraph.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.9, height: view.safeAreaLayoutGuide.layoutFrame.width * 0.675)
@@ -139,7 +143,7 @@ class GeneralViewController: UIViewController {
             // Update position of last element.
             lastElementY = temperatureLabel.frame.maxY
             // Record sample rate to file content array.
-            contentRow[1] = "1"
+            contentRow[1] = String(temperatureSampleInterval)
         } else {
             contentRow[1] = "0"
         }
@@ -162,7 +166,7 @@ class GeneralViewController: UIViewController {
             // Update position of last element.
             lastElementY = humidityLabel.frame.maxY
             // Record sample rate to file content array.
-            contentRow[2] = "1"
+            contentRow[2] = String(humiditySampleInterval)
         } else {
             contentRow[2] = "0"
         }
@@ -185,7 +189,7 @@ class GeneralViewController: UIViewController {
             // Update position of last element.
             lastElementY = lightLabel.frame.maxY
             // Record sample rate to file content array.
-            contentRow[3] = "1"
+            contentRow[3] = String(lightSampleInterval)
         } else {
             contentRow[3] = "0"
         }
@@ -208,7 +212,7 @@ class GeneralViewController: UIViewController {
             // Update position of last element.
             lastElementY = soundLabel.frame.maxY
             // Record sample rate to file content array.
-            contentRow[4] = "1"
+            contentRow[4] = String(soundSampleInterval)
         } else {
             contentRow[4] = "0"
         }
@@ -259,11 +263,19 @@ class GeneralViewController: UIViewController {
                 self.microphoneAudioSessionFail()
             }
             // Record sample rate to file content array.
-            contentRow[5] = "1"
+            contentRow[5] = String(microphoneSampleInterval)
         } else {
             contentRow[5] = "0"
         }
-        recordingFileContent.append(contentRow)
+        // Write content row to file.
+        let rowString = contentRow.joined(separator: ",") + "\n"
+        if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
+            recordingFileHandle.seekToEndOfFile()
+            recordingFileHandle.write(rowString.data(using: .utf8)!)
+            recordingFileHandle.closeFile()
+        } else {
+            print("Cannot open file.")
+        }
         // Set content size of scroll view.
         generalScrollView.contentSize = CGSize(width: view.safeAreaLayoutGuide.layoutFrame.width, height: lastElementY)
     }
@@ -339,8 +351,7 @@ class GeneralViewController: UIViewController {
     
     @objc func saveRecording() {
         let saveViewController = SaveViewController()
-        saveViewController.recordingFileContent = recordingFileContent
-        saveViewController.recordingFilePath = recordingFilePath
+        saveViewController.recordingFileName = recordingFileName
         self.navigationController?.pushViewController(saveViewController, animated: true)
     }
     
@@ -400,7 +411,15 @@ class GeneralViewController: UIViewController {
         } else {
             contentRow[5] = "-1"
         }
-        recordingFileContent.append(contentRow)
+        // Write content row to file.
+        let rowString = contentRow.joined(separator: ",") + "\n"
+        if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
+            recordingFileHandle.seekToEndOfFile()
+            recordingFileHandle.write(rowString.data(using: .utf8)!)
+            recordingFileHandle.closeFile()
+        } else {
+            print("Cannot open file.")
+        }
         if timeisFixed {
             if generalTime == timePeriod {
                 stopRecording()

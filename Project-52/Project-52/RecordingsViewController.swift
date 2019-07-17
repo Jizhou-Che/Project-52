@@ -25,8 +25,20 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        // Remove temporary files if any.
+        recordingFiles = try! FileManager.default.contentsOfDirectory(atPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path)
+        for recordingFile in recordingFiles {
+            if recordingFile.contains("_temp") {
+                let recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFile)
+                if FileManager.default.fileExists(atPath: recordingFilePath.path) {
+                    try? FileManager.default.removeItem(at: recordingFilePath)
+                }
+            }
+        }
+        // Sort the list.
         recordingFiles = try! FileManager.default.contentsOfDirectory(atPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path)
         recordingFiles.sort()
+        // Reload table view data source.
         recordingsTableView.reloadData()
     }
     

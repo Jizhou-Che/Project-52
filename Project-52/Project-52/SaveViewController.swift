@@ -14,8 +14,7 @@ class SaveViewController: UIViewController {
     let participantTextField = UITextField()
     let locationTextField = UITextField()
     let notesTextField = UITextField()
-    var recordingFilePath: URL!
-    var recordingFileContent: [[String]] = []
+    var recordingFileName: String!
     
     // Methods.
     override func viewDidLoad() {
@@ -83,23 +82,27 @@ class SaveViewController: UIViewController {
     }
     
     @objc func saveRecording() {
-        recordingFileContent.insert(["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", "", ""], at: 0)
-        recordingFileContent.insert([participantTextField.text!, "", "", "", "", "", ""], at: 1)
-        recordingFileContent.insert([locationTextField.text!, "", "", "", "", "", ""], at: 2)
-        recordingFileContent.insert([notesTextField.text!, "", "", "", "", "", ""], at: 3)
+        // Create new file.
+        let recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName + ".csv")
         if FileManager.default.fileExists(atPath: recordingFilePath.path) {
             try? FileManager.default.removeItem(at: recordingFilePath)
         }
         FileManager.default.createFile(atPath: recordingFilePath.path, contents: nil, attributes: nil)
-        for row in recordingFileContent {
-            let rowString = row.joined(separator: ",") + "\n"
-            if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
-                recordingFileHandle.seekToEndOfFile()
-                recordingFileHandle.write(rowString.data(using: .utf8)!)
-                recordingFileHandle.closeFile()
+        // Record to the new file.
+        let metadataString = ["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Participant", "\"" + (participantTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Location", "\"" + (locationTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Notes", "\"" + (notesTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n"
+        if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
+            recordingFileHandle.seekToEndOfFile()
+            recordingFileHandle.write(metadataString.data(using: .utf8)!)
+            // Concatenate the temporary file.
+            let tempFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName + "_temp.csv")
+            if let tempFileHandle = try? FileHandle(forReadingFrom: tempFilePath) {
+                recordingFileHandle.write(tempFileHandle.readDataToEndOfFile())
             } else {
-                print("Cannot open file.")
+                print("Cannot open temporary file.")
             }
+            recordingFileHandle.closeFile()
+        } else {
+            print("Cannot open recording file.")
         }
         navigationController?.popToViewController((navigationController?.viewControllers.first)!, animated: true)
     }

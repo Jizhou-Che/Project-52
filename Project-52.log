@@ -78,10 +78,10 @@ Fetal bug found in the force pause of recording while taking notes.
 
 12.07.19 FRI
 Feature of exporting csv files implemented.
-Bug found in taking too much time saving the csv file locally.
 Bug found in the pause of recording while the application is running in background.
 
 17.07.19 WED
 Bug fix in recording the actual microphone data.
 Bug fix in adding notes with special characters.
 Adjusted temperature display range.
+Significant improvements on the time required saving the csv file.
