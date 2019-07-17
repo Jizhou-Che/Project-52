@@ -15,7 +15,7 @@ public class AppData {
     static var humidity = Int()
     static var light = Int()
     static var sound = Int()
-    static var microphone = Int()
+    static var microphone = Float()
     
     // Methods.
     static func drawPoint(graph: UIView, positionX: Double, positionY: Double, color: CGColor, size: CGFloat, speed: Float) {

@@ -70,15 +70,18 @@ Important bug fix in the removing of audio engine tap.
 Bug fix in the permission of proceeding to general view controller without selecting any sensor.
 Feature of saving recordings to csv files implemented.
 Feature of viewing and removing recording files implemented.
-Bug found in recording 0 as the microphone data.
-Bug found in adding notes with special characters.
 
 07.07.19 SUN
 Debug mode temporarily adopted.
 User interface for taking notes while recording implemented.
-Bug found in the force pause of recording while taking notes.
+Fetal bug found in the force pause of recording while taking notes.
 
 12.07.19 FRI
 Feature of exporting csv files implemented.
 Bug found in taking too much time saving the csv file locally.
 Bug found in the pause of recording while the application is running in background.
+
+17.07.19 WED
+Bug fix in recording the actual microphone data.
+Bug fix in adding notes with special characters.
+Adjusted temperature display range.

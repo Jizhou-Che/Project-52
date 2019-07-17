@@ -411,11 +411,11 @@ class GeneralViewController: UIViewController {
     
     func displayTemperature() {
         // Modify label text.
-        temperatureLabel.text = "Temperature: " + String(Int(AppData.temperature)) + "."
+        temperatureLabel.text = "Temperature: " + String(AppData.temperature) + "."
         if temperatureShiftGraph {
             // Draw new line and new point.
             let pointX = Double(temperatureDivideRatio) / 100 * Double(temperatureGraph.frame.width)
-            let pointY = Double((100 - Double(AppData.temperature)) / 100) * Double(temperatureGraph.frame.height)
+            let pointY = Double((50 - Double(AppData.temperature)) / 100) * Double(temperatureGraph.frame.height)
             CATransaction.begin()
             AppData.drawLine(graph: temperatureGraph, startX: temperatureLastPointX!, startY: temperatureLastPointY!, endX: pointX + Double(temperatureGraph.frame.width) / Double(100 / temperaturePointSpacingRatio), endY: pointY, color: UIColor.blue.cgColor, width: 3, speed: 1.0 + 4.0 / Float(temperatureSampleInterval))
             AppData.drawPoint(graph: temperatureGraph, positionX: pointX + Double(temperatureGraph.frame.width) / Double(100 / temperaturePointSpacingRatio), positionY: pointY, color: UIColor.red.cgColor, size: 5, speed: 1.0 + 4.0 / Float(temperatureSampleInterval))
@@ -435,7 +435,7 @@ class GeneralViewController: UIViewController {
             temperatureCurrentRatio += temperaturePointSpacingRatio
             // Draw new point and new connection.
             let pointX = Double(temperatureCurrentRatio) / 100 * Double(temperatureGraph.frame.width)
-            let pointY = Double((100 - Double(AppData.temperature)) / 100) * Double(temperatureGraph.frame.height)
+            let pointY = Double((50 - Double(AppData.temperature)) / 100) * Double(temperatureGraph.frame.height)
             if temperatureIsFirstPoint {
                 temperatureIsFirstPoint = false
             } else {
@@ -459,7 +459,7 @@ class GeneralViewController: UIViewController {
     
     func displayHumidity() {
         // Modify label text.
-        humidityLabel.text = "Humidity: " + String(Int(AppData.humidity)) + "."
+        humidityLabel.text = "Humidity: " + String(AppData.humidity) + "."
         if humidityShiftGraph {
             // Draw new line and new point.
             let pointX = Double(humidityDivideRatio) / 100 * Double(humidityGraph.frame.width)
@@ -507,7 +507,7 @@ class GeneralViewController: UIViewController {
     
     func displayLight() {
         // Modify label text.
-        lightLabel.text = "Light: " + String(Int(AppData.light)) + "."
+        lightLabel.text = "Light: " + String(AppData.light) + "."
         if lightShiftGraph {
             // Draw new line and new point.
             let pointX = Double(lightDivideRatio) / 100 * Double(lightGraph.frame.width)
@@ -555,7 +555,7 @@ class GeneralViewController: UIViewController {
     
     func displaySound() {
         // Modify label text.
-        soundLabel.text = "Sound: " + String(Int(AppData.sound)) + "."
+        soundLabel.text = "Sound: " + String(AppData.sound) + "."
         if soundShiftGraph {
             // Draw new line and new point.
             let pointX = Double(soundDivideRatio) / 100 * Double(soundGraph.frame.width)
@@ -607,13 +607,15 @@ class GeneralViewController: UIViewController {
         for i in microphoneAudioBuffer ?? [0.0] {
             sum += abs(i)
         }
-        let sample = sum / Float(microphoneAudioBuffer?.count ?? 1) * 500
+        AppData.microphone = sum / Float(microphoneAudioBuffer?.count ?? 1) * 500
+        // Modify label text.
+        microphoneLabel.text = "Microphone: " + String(AppData.microphone) + "."
         // Draw the graph.
         if microphoneShiftGraph {
             // Draw new line.
             let lineX = Double(microphoneDivideRatio) / 100 * Double(microphoneGraph.frame.width)
             CATransaction.begin()
-            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
+            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - AppData.microphone) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + AppData.microphone) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
             CATransaction.commit()
             // Shift the display area to the left.
             CATransaction.begin()
@@ -625,7 +627,7 @@ class GeneralViewController: UIViewController {
             microphoneCurrentRatio += microphoneLineSpacingRatio
             // Draw new line.
             let lineX = Double(microphoneCurrentRatio) / 100 * Double(microphoneGraph.frame.width)
-            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - sample) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + sample) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
+            AppData.drawLine(graph: microphoneGraph, startX: lineX, startY: Double((100 - AppData.microphone) / 2) / 100 * Double(microphoneGraph.frame.height), endX: lineX, endY: Double((100 + AppData.microphone) / 2) / 100 * Double(microphoneGraph.frame.height), color: UIColor.blue.cgColor, width: 2, speed: 1.0 + 4.0 / Float(microphoneSampleInterval))
             // Check for division boundary.
             if microphoneCurrentRatio == microphoneDivideRatio {
                 microphoneShiftGraph = true

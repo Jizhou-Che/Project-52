@@ -83,7 +83,7 @@ class SaveViewController: UIViewController {
     }
     
     @objc func saveRecording() {
-        recordingFileContent.insert([recorderTextField.text!, "", "", "", "", "", ""], at: 0)
+        recordingFileContent.insert(["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", "", ""], at: 0)
         recordingFileContent.insert([participantTextField.text!, "", "", "", "", "", ""], at: 1)
         recordingFileContent.insert([locationTextField.text!, "", "", "", "", "", ""], at: 2)
         recordingFileContent.insert([notesTextField.text!, "", "", "", "", "", ""], at: 3)
