@@ -87,10 +87,15 @@ class GeneralViewController: UIViewController {
     
     // Actions.
     @IBAction func takeNote(_ sender: UIBarButtonItem) {
-        let noteViewController = NoteViewController()
-        noteViewController.timestamp = generalTime
-        let noteNavigationController = UINavigationController(rootViewController: noteViewController)
-        navigationController?.present(noteNavigationController, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Note", message: "Time: " + generalTimeString, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textField) in
+            //
+        })
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { _ in
+            //
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
     
     // Methods.
@@ -123,7 +128,7 @@ class GeneralViewController: UIViewController {
         // Load items in tool bar.
         generalToolBar.setItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), startButton, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)], animated: true)
         // Load graphs for available sensors.
-        var contentRow = ["", "", "", "", "", "", ""]
+        var contentRow = ["", "", "", "", "", ""]
         if temperatureIsOn {
             // Load graph.
             temperatureGraph.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.9, height: view.safeAreaLayoutGuide.layoutFrame.width * 0.675)
@@ -356,74 +361,76 @@ class GeneralViewController: UIViewController {
     }
     
     @objc func setGeneralTime() {
-        generalTime += 1
-        generalTimeString = String(format: "%02i:%02i:%02i.%02i", generalTime / 360000, generalTime % 360000 / 6000, generalTime % 6000 / 100, generalTime % 100)
-        generalTimeLabel.text = generalTimeString
-        var contentRow: [String] = ["", "", "", "", "", "", ""]
-        contentRow[0] = String(generalTime)
-        if temperatureIsOn {
-            if generalTime % temperatureSampleInterval == 0 {
-                displayTemperature()
-                contentRow[1] = String(AppData.temperature)
+        DispatchQueue.main.async {
+            self.generalTime += 1
+            self.generalTimeString = String(format: "%02i:%02i:%02i.%02i", self.generalTime / 360000, self.generalTime % 360000 / 6000, self.generalTime % 6000 / 100, self.generalTime % 100)
+            self.generalTimeLabel.text = self.generalTimeString
+            var contentRow: [String] = ["", "", "", "", "", ""]
+            contentRow[0] = String(self.generalTime)
+            if self.temperatureIsOn {
+                if self.generalTime % self.temperatureSampleInterval == 0 {
+                    self.displayTemperature()
+                    contentRow[1] = String(AppData.temperature)
+                } else {
+                    contentRow[1] = "-1"
+                }
             } else {
                 contentRow[1] = "-1"
             }
-        } else {
-            contentRow[1] = "-1"
-        }
-        if humidityIsOn {
-            if generalTime % humiditySampleInterval == 0 {
-                displayHumidity()
-                contentRow[2] = String(AppData.humidity)
+            if self.humidityIsOn {
+                if self.generalTime % self.humiditySampleInterval == 0 {
+                    self.displayHumidity()
+                    contentRow[2] = String(AppData.humidity)
+                } else {
+                    contentRow[2] = "-1"
+                }
             } else {
                 contentRow[2] = "-1"
             }
-        } else {
-            contentRow[2] = "-1"
-        }
-        if lightIsOn {
-            if generalTime % lightSampleInterval == 0 {
-                displayLight()
-                contentRow[3] = String(AppData.light)
+            if self.lightIsOn {
+                if self.generalTime % self.lightSampleInterval == 0 {
+                    self.displayLight()
+                    contentRow[3] = String(AppData.light)
+                } else {
+                    contentRow[3] = "-1"
+                }
             } else {
                 contentRow[3] = "-1"
             }
-        } else {
-            contentRow[3] = "-1"
-        }
-        if soundIsOn {
-            if generalTime % soundSampleInterval == 0 {
-                displaySound()
-                contentRow[4] = String(AppData.sound)
+            if self.soundIsOn {
+                if self.generalTime % self.soundSampleInterval == 0 {
+                    self.displaySound()
+                    contentRow[4] = String(AppData.sound)
+                } else {
+                    contentRow[4] = "-1"
+                }
             } else {
                 contentRow[4] = "-1"
             }
-        } else {
-            contentRow[4] = "-1"
-        }
-        if microphoneIsOn {
-            if generalTime % microphoneSampleInterval == 0 {
-                displayMicrophone()
-                contentRow[5] = String(AppData.microphone)
+            if self.microphoneIsOn {
+                if self.generalTime % self.microphoneSampleInterval == 0 {
+                    self.displayMicrophone()
+                    contentRow[5] = String(AppData.microphone)
+                } else {
+                    contentRow[5] = "-1"
+                }
             } else {
                 contentRow[5] = "-1"
             }
-        } else {
-            contentRow[5] = "-1"
-        }
-        // Write content row to file.
-        let rowString = contentRow.joined(separator: ",") + "\n"
-        if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
-            recordingFileHandle.seekToEndOfFile()
-            recordingFileHandle.write(rowString.data(using: .utf8)!)
-            recordingFileHandle.closeFile()
-        } else {
-            print("Cannot open file.")
-        }
-        if timeisFixed {
-            if generalTime == timePeriod {
-                stopRecording()
-                startButton.isEnabled = false
+            // Write content row to file.
+            let rowString = contentRow.joined(separator: ",") + "\n"
+            if let recordingFileHandle = try? FileHandle(forWritingTo: self.recordingFilePath) {
+                recordingFileHandle.seekToEndOfFile()
+                recordingFileHandle.write(rowString.data(using: .utf8)!)
+                recordingFileHandle.closeFile()
+            } else {
+                print("Cannot open file.")
+            }
+            if self.timeisFixed {
+                if self.generalTime == self.timePeriod {
+                    self.stopRecording()
+                    self.startButton.isEnabled = false
+                }
             }
         }
     }

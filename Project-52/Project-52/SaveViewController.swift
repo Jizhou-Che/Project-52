@@ -89,7 +89,7 @@ class SaveViewController: UIViewController {
         }
         FileManager.default.createFile(atPath: recordingFilePath.path, contents: nil, attributes: nil)
         // Record to the new file.
-        let metadataString = ["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Participant", "\"" + (participantTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Location", "\"" + (locationTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n" + ["Notes", "\"" + (notesTextField.text!) + "\"", "", "", "", "", ""].joined(separator: ",") + "\n"
+        let metadataString = ["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Participant", "\"" + (participantTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Location", "\"" + (locationTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Notes", "\"" + (notesTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n"
         if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
             recordingFileHandle.seekToEndOfFile()
             recordingFileHandle.write(metadataString.data(using: .utf8)!)

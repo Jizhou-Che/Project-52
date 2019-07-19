@@ -60,7 +60,6 @@ Data displaying in general view controller generally implemented.
 Timer logic refined and synchronised with data transfer rate.
 Adaptation of animation speed adopted.
 Important bug fix in synchronising the timer while the page is scrolling.
-Fetal bug found in the timing of graphs in general view controller. Considering adopting multiple threads.
 
 25.06.19 TUE
 Displaying of microphone data added to general view controller.
@@ -78,10 +77,17 @@ Fetal bug found in the force pause of recording while taking notes.
 
 12.07.19 FRI
 Feature of exporting csv files implemented.
-Bug found in the pause of recording while the application is running in background.
+Fetal bug found in the pause of recording while the application is running in background.
 
 17.07.19 WED
 Bug fix in recording the actual microphone data.
 Bug fix in adding notes with special characters.
 Adjusted temperature display range.
 Significant improvements on the time required saving the csv file.
+
+18.07.19 THU
+Important bug fix in the timing of graphs in general view controller.
+
+19.07.19 FRI
+Bug fix in forcing the orientation of application to be portrait.
+Functionality of taking notes while recording reengineered.

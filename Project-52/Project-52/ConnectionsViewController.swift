@@ -105,19 +105,19 @@ extension ConnectionsViewController: CBCentralManagerDelegate {
         case .unsupported:
             print("Central is unsupported.")
             // Alert and quit.
-            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is not supported on your device!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.destructive, handler: { _ in
+            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is not supported on your device!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Fine", style: .destructive, handler: { _ in
                 self.navigationController?.popViewController(animated: true)
             }))
-            self.present(alert, animated: true)
+            present(alert, animated: true)
         case .unauthorized:
             print("Central is unauthorized.")
         case .poweredOff:
             print("Central is powered off.")
             // Alert.
-            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is turned off on your device!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertAction.Style.default))
-            self.present(alert, animated: true)
+            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is turned off on your device!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Fine", style: .default))
+            present(alert, animated: true)
         case .poweredOn:
             print("Central is powered on.")
             // Scan for peripherals.
