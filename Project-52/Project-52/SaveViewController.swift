@@ -15,6 +15,7 @@ class SaveViewController: UIViewController {
     let locationTextField = UITextField()
     let notesTextField = UITextField()
     var recordingFileName: String!
+    var notes: [[String]]!
     
     // Methods.
     override func viewDidLoad() {
@@ -91,6 +92,7 @@ class SaveViewController: UIViewController {
         // Record to the new file.
         let metadataString = ["Recorder", "\"" + (recorderTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Participant", "\"" + (participantTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Location", "\"" + (locationTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n" + ["Notes", "\"" + (notesTextField.text!) + "\"", "", "", "", ""].joined(separator: ",") + "\n"
         if let recordingFileHandle = try? FileHandle(forWritingTo: recordingFilePath) {
+            // Write metadata.
             recordingFileHandle.seekToEndOfFile()
             recordingFileHandle.write(metadataString.data(using: .utf8)!)
             // Concatenate the temporary file.
@@ -100,6 +102,12 @@ class SaveViewController: UIViewController {
             } else {
                 print("Cannot open temporary file.")
             }
+            // Write notes.
+            for contentRow in notes {
+                let noteString = contentRow.joined(separator: ",") + "\n"
+                recordingFileHandle.write(noteString.data(using: .utf8)!)
+            }
+            // Close file.
             recordingFileHandle.closeFile()
         } else {
             print("Cannot open recording file.")

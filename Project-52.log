@@ -91,3 +91,6 @@ Important bug fix in the timing of graphs in general view controller.
 19.07.19 FRI
 Bug fix in forcing the orientation of application to be portrait.
 Functionality of taking notes while recording reengineered.
+
+20.07.19 SAT
+Important bug fix in discarding recordings.

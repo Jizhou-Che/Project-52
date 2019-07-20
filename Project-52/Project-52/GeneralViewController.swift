@@ -84,15 +84,14 @@ class GeneralViewController: UIViewController {
     var stopButton = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(stopRecording))
     var discardButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(discardRecording))
     var saveButton = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(saveRecording))
+    var notes: [[String]] = []
     
     // Actions.
     @IBAction func takeNote(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Note", message: "Time: " + generalTimeString, preferredStyle: .alert)
-        alert.addTextField(configurationHandler: { (textField) in
-            //
-        })
+        alert.addTextField(configurationHandler: nil)
         alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { _ in
-            //
+            self.notes.append([self.generalTimeString, alert.textFields![0].text!, "", "", "", ""])
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
@@ -319,6 +318,12 @@ class GeneralViewController: UIViewController {
         // Reset timer.
         generalTime = 0
         generalTimeLabel.text = "00:00:00.00"
+        // Clear temporary file and notes.
+        if FileManager.default.fileExists(atPath: recordingFilePath.path) {
+            try? FileManager.default.removeItem(at: recordingFilePath)
+        }
+        FileManager.default.createFile(atPath: recordingFilePath.path, contents: nil, attributes: nil)
+        notes = []
         // Clear all graphs.
         temperatureGraph.layer.sublayers?.forEach {
             $0.removeFromSuperlayer()
@@ -357,6 +362,7 @@ class GeneralViewController: UIViewController {
     @objc func saveRecording() {
         let saveViewController = SaveViewController()
         saveViewController.recordingFileName = recordingFileName
+        saveViewController.notes = notes
         self.navigationController?.pushViewController(saveViewController, animated: true)
     }
     
