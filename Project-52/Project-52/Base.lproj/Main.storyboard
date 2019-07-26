@@ -31,7 +31,7 @@
         <!--Recordings-->
         <scene sceneID="AyP-PS-lCq">
             <objects>
-                <viewController title="Recordings" id="gXf-qE-59m" customClass="RecordingsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordingsViewController" title="Recordings" id="gXf-qE-59m" customClass="RecordingsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oVT-dn-oxS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +48,7 @@
                     <navigationItem key="navigationItem" title="Recordings" id="rnp-VE-HGF">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AbJ-TK-shg">
                             <connections>
-                                <segue destination="Mxb-Nj-Aqe" kind="show" id="wXR-9O-zCa"/>
+                                <segue destination="Mxb-Nj-Aqe" kind="show" identifier="showConnections" id="wXR-9O-zCa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -63,7 +63,7 @@
         <!--Connections-->
         <scene sceneID="DE8-B9-4Uc">
             <objects>
-                <viewController title="Connections" id="Mxb-Nj-Aqe" customClass="ConnectionsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConnectionsViewController" title="Connections" id="Mxb-Nj-Aqe" customClass="ConnectionsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oi7-uq-LmK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="vUQ-uf-ThE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Connections" id="KPn-dg-nYd">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="c7d-Qh-bBw">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Next" id="c7d-Qh-bBw">
                             <color key="tintColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="MnY-aL-Wa4" kind="show" identifier="showOptions" id="MJm-7G-mbT"/>
@@ -96,7 +96,7 @@
         <!--Options-->
         <scene sceneID="0UD-rw-EnI">
             <objects>
-                <viewController title="Options" id="MnY-aL-Wa4" customClass="OptionsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OptionsViewController" title="Options" id="MnY-aL-Wa4" customClass="OptionsViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e9M-hr-lnj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,7 +112,7 @@
                     <navigationItem key="navigationItem" title="Options" id="JoA-6d-o7p">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="FyU-3h-Qls">
                             <connections>
-                                <segue destination="j6i-c1-KZ0" kind="show" id="hEc-Ma-og7"/>
+                                <segue destination="j6i-c1-KZ0" kind="show" identifier="showGeneral" id="hEc-Ma-og7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -127,7 +127,7 @@
         <!--General-->
         <scene sceneID="HW0-82-k5q">
             <objects>
-                <viewController title="General" id="j6i-c1-KZ0" customClass="GeneralViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GeneralViewController" title="General" id="j6i-c1-KZ0" customClass="GeneralViewController" customModule="Project_52" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UG6-gC-lXr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

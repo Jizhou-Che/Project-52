@@ -14,6 +14,7 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // Properties.
     var recordingFiles: [String] = []
+    var gestureRecognizer: UILongPressGestureRecognizer!
     
     // Methods.
     override func viewDidLoad() {
@@ -22,6 +23,10 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
         recordingsTableView.delegate = self
         recordingsTableView.dataSource = self
         recordingsTableView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height)
+        // Say hello to Jony!
+        gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(helloJony))
+        gestureRecognizer.minimumPressDuration = 7
+        navigationController?.navigationBar.addGestureRecognizer(gestureRecognizer)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,11 +36,11 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
             if recordingFile.contains("_temp") {
                 let recordingFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFile)
                 if FileManager.default.fileExists(atPath: recordingFilePath.path) {
-                    try? FileManager.default.removeItem(at: recordingFilePath)
+                    try! FileManager.default.removeItem(at: recordingFilePath)
                 }
             }
         }
-        // Sort the list.
+        // Sort the data source.
         recordingFiles = try! FileManager.default.contentsOfDirectory(atPath: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path)
         recordingFiles.sort()
         // Reload table view data source.
@@ -65,6 +70,17 @@ class RecordingsViewController: UIViewController, UITableViewDelegate, UITableVi
             try! FileManager.default.removeItem(at: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFiles[indexPath.row]))
             recordingFiles.remove(at: indexPath.row)
             recordingsTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    @objc func helloJony() {
+        switch gestureRecognizer.state {
+        case .began:
+            navigationItem.title = "Jony"
+        case .ended:
+            navigationItem.title = title
+        default:
+            break
         }
     }
 }

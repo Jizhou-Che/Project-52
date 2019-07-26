@@ -17,6 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        switch shortcutItem.type.components(separatedBy: ".").last {
+        case "NewRecording":
+            let recordingsViewController : UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecordingsViewController") as UIViewController
+            let navigationController = UINavigationController(rootViewController: recordingsViewController)
+            window?.rootViewController = navigationController
+            let connectionsViewController : UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ConnectionsViewController") as UIViewController
+            navigationController.pushViewController(connectionsViewController, animated: true)
+        default:
+            break
+        }
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

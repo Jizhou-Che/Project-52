@@ -16,14 +16,14 @@ class ReviewViewController: UIViewController {
     // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set title of view controller.
+        // Set up the navigation item.
         navigationItem.title = recordingFileName
         let exportButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(exportRecording))
         navigationItem.rightBarButtonItem = exportButton
         // Load review scroll view.
         let reviewScrollView = UIScrollView()
         reviewScrollView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height)
-        reviewScrollView.backgroundColor = UIColor.white
+        reviewScrollView.backgroundColor = .white
         view.addSubview(reviewScrollView)
     }
     

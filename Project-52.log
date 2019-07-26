@@ -22,7 +22,6 @@ Feature of displaying basic audio waveform implemented.
 AVAudioEngine adopted to replace AVAudioRecorder.
 Bug fixed in enabling the start button after AVAudioEngine preparation.
 Reformulation of story board.
-Bug found in using headphone microphone instead of built-in microphone.
 
 16.06.19 SUN
 Initial tests for AT-09 BLE module performed.
@@ -73,11 +72,9 @@ Feature of viewing and removing recording files implemented.
 07.07.19 SUN
 Debug mode temporarily adopted.
 User interface for taking notes while recording implemented.
-Fetal bug found in the force pause of recording while taking notes.
 
 12.07.19 FRI
 Feature of exporting csv files implemented.
-Fetal bug found in the pause of recording while the application is running in background.
 
 17.07.19 WED
 Bug fix in recording the actual microphone data.
@@ -94,3 +91,18 @@ Functionality of taking notes while recording reengineered.
 
 20.07.19 SAT
 Important bug fix in discarding recordings.
+
+25.07.19 THU
+Bug fix in the accuracy of sliders in options view controller.
+Bug fix in clearing the microphone graph in general view controller.
+Bug fix in recording data at 00:00:00.00 in general view controller.
+Background mode implemented.
+Feature of 3D Touch Home Screen Quick Actions implemented.
+Improved csv file structure.
+Improved program structure and code readability.
+Project adopted to iOS 12.4.
+
+26.07.19 FRI
+Thorough test performed.
+Debug mode disabled.
+Project ownership transferred to Muyuan Chen.

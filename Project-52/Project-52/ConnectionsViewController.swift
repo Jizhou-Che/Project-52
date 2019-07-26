@@ -15,11 +15,11 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     
     // Properties.
     var centralManager: CBCentralManager!
-    var peripheralDevices = [CBPeripheral]()
+    var peripheralDevices: [CBPeripheral] = []
     var connectedDevice: CBPeripheral?
     var connectionsTimer = Timer()
-    var displayInterval = 2.0
-    var refreshControl = UIRefreshControl()
+    let displayInterval = 2.0
+    var refreshControl: UIRefreshControl!
     
     // Methods.
     override func viewDidLoad() {
@@ -30,14 +30,11 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         connectionsTableView.delegate = self
         connectionsTableView.dataSource = self
         connectionsTableView.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height)
-        // Set up refresh control.
+        // Set up the refresh control.
+        refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(reloadConnections), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Reloading available devices.")
         connectionsTableView.addSubview(refreshControl)
-        // Set up the timer.
-        connectionsTimer.invalidate()
-        connectionsTimer = Timer.scheduledTimer(timeInterval: displayInterval, target: self, selector: #selector(reloadTableView), userInfo: nil, repeats: true)
-        RunLoop.current.add(connectionsTimer, forMode: .common)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +102,7 @@ extension ConnectionsViewController: CBCentralManagerDelegate {
         case .unsupported:
             print("Central is unsupported.")
             // Alert and quit.
-            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is not supported on your device!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Oops", message: "Bluetooth is not supported on your device.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Fine", style: .destructive, handler: { _ in
                 self.navigationController?.popViewController(animated: true)
             }))
@@ -115,7 +112,7 @@ extension ConnectionsViewController: CBCentralManagerDelegate {
         case .poweredOff:
             print("Central is powered off.")
             // Alert.
-            let alert = UIAlertController(title: "Oh shit!", message: "Bluetooth is turned off on your device!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Oops", message: "Bluetooth is turned off on your device.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Fine", style: .default))
             present(alert, animated: true)
         case .poweredOn:

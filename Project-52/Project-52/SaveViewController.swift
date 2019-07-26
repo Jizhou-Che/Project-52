@@ -10,17 +10,18 @@ import UIKit
 
 class SaveViewController: UIViewController {
     // Properties.
-    let recorderTextField = UITextField()
-    let participantTextField = UITextField()
-    let locationTextField = UITextField()
-    let notesTextField = UITextField()
+    var recorderTextField: UITextField!
+    var participantTextField: UITextField!
+    var locationTextField: UITextField!
+    var notesTextField: UITextField!
     var recordingFileName: String!
     var notes: [[String]]!
+    var sensorInformation: String!
     
     // Methods.
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set title of view controller.
+        // Set up the navigation item.
         navigationItem.title = "Save"
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveRecording))
         navigationItem.rightBarButtonItem = doneButton
@@ -38,6 +39,7 @@ class SaveViewController: UIViewController {
         recorderLabel.textAlignment = .natural
         recorderLabel.text = "Recorder:"
         saveScrollView.addSubview(recorderLabel)
+        recorderTextField = UITextField()
         recorderTextField.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 40)
         recorderTextField.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.65, y: 50)
         recorderTextField.borderStyle = .roundedRect
@@ -50,6 +52,7 @@ class SaveViewController: UIViewController {
         participantLabel.textAlignment = .natural
         participantLabel.text = "Participant:"
         saveScrollView.addSubview(participantLabel)
+        participantTextField = UITextField()
         participantTextField.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 40)
         participantTextField.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.65, y: 110)
         participantTextField.borderStyle = .roundedRect
@@ -62,6 +65,7 @@ class SaveViewController: UIViewController {
         locationLabel.textAlignment = .natural
         locationLabel.text = "Location:"
         saveScrollView.addSubview(locationLabel)
+        locationTextField = UITextField()
         locationTextField.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 40)
         locationTextField.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.65, y: 170)
         locationTextField.borderStyle = .roundedRect
@@ -74,6 +78,7 @@ class SaveViewController: UIViewController {
         notesLabel.textAlignment = .natural
         notesLabel.text = "Notes:"
         saveScrollView.addSubview(notesLabel)
+        notesTextField = UITextField()
         notesTextField.frame = CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width * 0.5, height: 40)
         notesTextField.center = CGPoint(x: view.safeAreaLayoutGuide.layoutFrame.width * 0.65, y: 230)
         notesTextField.borderStyle = .roundedRect
@@ -95,6 +100,8 @@ class SaveViewController: UIViewController {
             // Write metadata.
             recordingFileHandle.seekToEndOfFile()
             recordingFileHandle.write(metadataString.data(using: .utf8)!)
+            // Write sensor information.
+            recordingFileHandle.write(sensorInformation.data(using: .utf8)!)
             // Concatenate the temporary file.
             let tempFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(recordingFileName + "_temp.csv")
             if let tempFileHandle = try? FileHandle(forReadingFrom: tempFilePath) {
@@ -103,6 +110,7 @@ class SaveViewController: UIViewController {
                 print("Cannot open temporary file.")
             }
             // Write notes.
+            recordingFileHandle.write("Notes,,,,,\n".data(using: .utf8)!)
             for contentRow in notes {
                 let noteString = contentRow.joined(separator: ",") + "\n"
                 recordingFileHandle.write(noteString.data(using: .utf8)!)
